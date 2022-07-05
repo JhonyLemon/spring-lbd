@@ -12,7 +12,6 @@ import javax.annotation.PostConstruct;
 public class SpringLbdApplication {
 
     @Autowired
-    @Qualifier("es2")
     private EmployeeService employeeService;
 
     public static void main(String[] args) {

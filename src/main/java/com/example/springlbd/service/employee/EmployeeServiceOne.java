@@ -3,13 +3,13 @@ package com.example.springlbd.service.employee;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@Primary
-@Qualifier("es1")
+@Profile("dev")
 public class EmployeeServiceOne implements EmployeeService {
 
     @Value("${prefix}")
