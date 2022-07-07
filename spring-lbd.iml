@@ -118,6 +118,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-orm:5.3.21" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.3.21" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aspects:5.3.21" level="project" />
-    <orderEntry type="library" name="Maven: com.h2database:h2:2.1.214" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: com.h2database:h2:2.1.214" level="project" />
   </component>
 </module>
