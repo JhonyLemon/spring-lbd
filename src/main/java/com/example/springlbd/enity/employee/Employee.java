@@ -1,29 +1,45 @@
 package com.example.springlbd.enity.employee;
 
+import com.example.springlbd.enity.contract.Contract;
+import com.example.springlbd.enity.office.Office;
+
+import javax.persistence.*;
+
+
+@Entity
 public class Employee {
 
-    Long id;
-    String imię;
-    String nazwisko;
-    String pesel;
-    String numerDowoduOsobistego;
-    String telefon;
+    @Id
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private String personalIdentityNumber;
+    private String identityCardNumber;
+    private String phoneNumber;
 
-    public Employee(Long id, String imię, String nazwisko, String pesel, String numerDowoduOsobistego, String telefon) {
+    @ManyToOne
+    @JoinColumn(name="contract_id", nullable=false,foreignKey =@ForeignKey(name = "foreignKeyContract"))
+    private Contract contract;
+
+    @ManyToOne
+    @JoinColumn(name="office_id", nullable=false,foreignKey =@ForeignKey(name = "foreignKeyOffice"))
+    private Office office;
+
+    public Employee(Long id, String firstName, String lastName, String personalIdentityNumber, String identityCardNumber, String phoneNumber) {
         this.id = id;
-        this.imię = imię;
-        this.nazwisko = nazwisko;
-        this.pesel = pesel;
-        this.numerDowoduOsobistego = numerDowoduOsobistego;
-        this.telefon = telefon;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.personalIdentityNumber = personalIdentityNumber;
+        this.identityCardNumber = identityCardNumber;
+        this.phoneNumber = phoneNumber;
     }
 
-    public Employee(String imię, String nazwisko, String pesel, String numerDowoduOsobistego, String telefon) {
-        this.imię = imię;
-        this.nazwisko = nazwisko;
-        this.pesel = pesel;
-        this.numerDowoduOsobistego = numerDowoduOsobistego;
-        this.telefon = telefon;
+    public Employee(String firstName, String lastName, String personalIdentityNumber, String identityCardNumber, String phoneNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.personalIdentityNumber = personalIdentityNumber;
+        this.identityCardNumber = identityCardNumber;
+        this.phoneNumber = phoneNumber;
     }
 
     public Employee() {
@@ -37,55 +53,51 @@ public class Employee {
         this.id = id;
     }
 
-    public String getImię() {
-        return imię;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setImię(String imię) {
-        this.imię = imię;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getNazwisko() {
-        return nazwisko;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setNazwisko(String nazwisko) {
-        this.nazwisko = nazwisko;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getPesel() {
-        return pesel;
+    public String getPersonalIdentityNumber() {
+        return personalIdentityNumber;
     }
 
-    public void setPesel(String pesel) {
-        this.pesel = pesel;
+    public void setPersonalIdentityNumber(String personalIdentityNumber) {
+        this.personalIdentityNumber = personalIdentityNumber;
     }
 
-    public String getNumerDowoduOsobistego() {
-        return numerDowoduOsobistego;
+    public String getIdentityCardNumber() {
+        return identityCardNumber;
     }
 
-    public void setNumerDowoduOsobistego(String numerDowoduOsobistego) {
-        this.numerDowoduOsobistego = numerDowoduOsobistego;
+    public void setIdentityCardNumber(String identityCardNumber) {
+        this.identityCardNumber = identityCardNumber;
     }
 
-    public String getTelefon() {
-        return telefon;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setTelefon(String telefon) {
-        this.telefon = telefon;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", imię='" + imię + '\'' +
-                ", nazwisko='" + nazwisko + '\'' +
-                ", pesel='" + pesel + '\'' +
-                ", numerDowoduOsobistego='" + numerDowoduOsobistego + '\'' +
-                ", telefon='" + telefon + '\'' +
-                '}';
+    public Contract getContract() {
+        return contract;
+    }
+
+    public void setContract(Contract contract) {
+        this.contract = contract;
     }
 }
