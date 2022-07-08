@@ -8,6 +8,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface SprintRepository extends PagingAndSortingRepository<Sprint,Long> {
 
@@ -16,7 +17,8 @@ public interface SprintRepository extends PagingAndSortingRepository<Sprint,Long
 
     Optional<List<Sprint>> findByBeginDateGreaterThanEqualAndEndDateLessThanEqual(LocalDate begin, LocalDate end);
 
-    @Query("SELECT SUM(u.storyPoints) FROM UserStory u INNER JOIN u.sprints s WHERE s.id=?1 AND u.status='Done'")
+    @Query("SELECT SUM(u.storyPoints) FROM UserStory u INNER JOIN u.sprints s WHERE s.id=?1 AND u.userStoryStatus='Done'")
     Optional<Long> countStoryPointsBySprintId(Long id);
+
 
 }

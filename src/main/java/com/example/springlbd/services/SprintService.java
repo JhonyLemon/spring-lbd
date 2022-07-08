@@ -1,7 +1,10 @@
 package com.example.springlbd.services;
 
+import com.example.springlbd.dto.SprintDto.SprintDto;
+import com.example.springlbd.dto.UserStoryDto.UserStoryDto;
 import com.example.springlbd.entity.Sprint;
 import com.example.springlbd.entity.UserStory;
+import com.example.springlbd.mapper.SprintSetMapper;
 import com.example.springlbd.repositories.SprintRepository;
 import com.example.springlbd.repositories.UserStoryRepository;
 import org.slf4j.Logger;
@@ -10,8 +13,10 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class SprintService {
@@ -21,9 +26,12 @@ public class SprintService {
 
     private UserStoryRepository userStoryRepository;
 
-    public SprintService(SprintRepository sprintRepository,UserStoryRepository userStoryRepository) {
+    private SprintSetMapper sprintSetMapper;
+
+    public SprintService(SprintRepository sprintRepository,UserStoryRepository userStoryRepository,SprintSetMapper sprintSetMapper) {
         this.sprintRepository = sprintRepository;
         this.userStoryRepository=userStoryRepository;
+        this.sprintSetMapper=sprintSetMapper;
     }
 
     @Transactional
@@ -71,4 +79,10 @@ public class SprintService {
         userStories.forEach(x -> userStoryRepository.save(x));
         return s;
     }
+
+    public Set<SprintDto> findAllWithOrWithoutUserStories(Boolean tasks){
+        return sprintSetMapper.mapEntityToDtoWithWithoutUserStories(tasks,sprintRepository.findAll());
+    }
+
+
 }
