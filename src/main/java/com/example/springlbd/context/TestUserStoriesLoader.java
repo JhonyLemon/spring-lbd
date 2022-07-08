@@ -1,8 +1,8 @@
-package com.example.springlbd;
+package com.example.springlbd.context;
 
-import com.example.springlbd.entity.userstory.Status;
-import com.example.springlbd.entity.userstory.UserStory;
-import com.example.springlbd.repositories.userstory.UserStoryRepository;
+import com.example.springlbd.entity.enums.UserStoryStatus;
+import com.example.springlbd.entity.UserStory;
+import com.example.springlbd.repositories.UserStoryRepository;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -26,7 +26,7 @@ public class TestUserStoriesLoader implements ApplicationContextAware {
              UUID.randomUUID().toString(),
              UUID.randomUUID().toString(),
              (long)random.nextInt(100),
-             Status.values()[random.nextInt(3)],
+             UserStoryStatus.values()[random.nextInt(3)],
             null
             ));
         }

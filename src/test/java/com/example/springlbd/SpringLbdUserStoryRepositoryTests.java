@@ -1,7 +1,7 @@
 package com.example.springlbd;
 
-import com.example.springlbd.entity.userstory.UserStory;
-import com.example.springlbd.repositories.userstory.UserStoryRepository;
+import com.example.springlbd.entity.UserStory;
+import com.example.springlbd.repositories.UserStoryRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

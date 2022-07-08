@@ -1,9 +1,9 @@
-package com.example.springlbd.services.sprint;
+package com.example.springlbd.services;
 
-import com.example.springlbd.entity.sprint.Sprint;
-import com.example.springlbd.entity.userstory.UserStory;
-import com.example.springlbd.repositories.sprint.SprintRepository;
-import com.example.springlbd.repositories.userstory.UserStoryRepository;
+import com.example.springlbd.entity.Sprint;
+import com.example.springlbd.entity.UserStory;
+import com.example.springlbd.repositories.SprintRepository;
+import com.example.springlbd.repositories.UserStoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
-package com.example.springlbd.entity.sprint;
+package com.example.springlbd.entity;
 
-import com.example.springlbd.entity.userstory.UserStory;
+import com.example.springlbd.entity.enums.SprintStatus;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -23,7 +23,7 @@ public class Sprint {
     private String goalDescription;
     @Column(name = "STATUS")
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private SprintStatus sprintStatus;
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "USER_STORY_SPRINT",
@@ -46,22 +46,22 @@ public class Sprint {
     )
     private Set<UserStory> userStories;
 
-    public Sprint(Long id, String name, LocalDate beginDate, LocalDate endDate, String goalDescription, Status status, Set<UserStory> userStories) {
+    public Sprint(Long id, String name, LocalDate beginDate, LocalDate endDate, String goalDescription, SprintStatus sprintStatus, Set<UserStory> userStories) {
         this.id = id;
         this.name = name;
         this.beginDate = beginDate;
         this.endDate = endDate;
         this.goalDescription = goalDescription;
-        this.status = status;
+        this.sprintStatus = sprintStatus;
         this.userStories = userStories;
     }
 
-    public Sprint(String name, LocalDate beginDate, LocalDate endDate, String goalDescription, Status status, Set<UserStory> userStories) {
+    public Sprint(String name, LocalDate beginDate, LocalDate endDate, String goalDescription, SprintStatus sprintStatus, Set<UserStory> userStories) {
         this.name = name;
         this.beginDate = beginDate;
         this.endDate = endDate;
         this.goalDescription = goalDescription;
-        this.status = status;
+        this.sprintStatus = sprintStatus;
         this.userStories = userStories;
     }
 
@@ -108,12 +108,12 @@ public class Sprint {
         this.goalDescription = goalDescription;
     }
 
-    public Status getStatus() {
-        return status;
+    public SprintStatus getStatus() {
+        return sprintStatus;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setStatus(SprintStatus sprintStatus) {
+        this.sprintStatus = sprintStatus;
     }
 
     public Set<UserStory> getUserStories() {

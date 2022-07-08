@@ -1,9 +1,8 @@
 package com.example.springlbd;
 
-import com.example.springlbd.entity.sprint.Sprint;
-import com.example.springlbd.entity.sprint.Status;
-import com.example.springlbd.entity.userstory.UserStory;
-import com.example.springlbd.repositories.sprint.SprintRepository;
+import com.example.springlbd.entity.Sprint;
+import com.example.springlbd.entity.enums.SprintStatus;
+import com.example.springlbd.repositories.SprintRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,12 +11,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
-import java.util.Comparator;
 import java.util.Random;
 import java.util.UUID;
 
 @SpringBootTest
-public class SpringLbdSprintRepositoryTest {
+public class SpringLbdSprintRepositoryTestDto {
 
     @Autowired
     SprintRepository sprintRepository;
@@ -34,7 +32,7 @@ public class SpringLbdSprintRepositoryTest {
                     LocalDate.of(random.nextInt(2050-1900)+1900,random.nextInt(12-1)+1,random.nextInt(31-1)+1),
                     LocalDate.of(random.nextInt(2070-2060)+2060,random.nextInt(12-1)+1,random.nextInt(31-1)+1),
                     UUID.randomUUID().toString(),
-                    Status.values()[random.nextInt(3)],
+                    SprintStatus.values()[random.nextInt(3)],
                     null
             ));
         }
@@ -43,7 +41,7 @@ public class SpringLbdSprintRepositoryTest {
                 LocalDate.of(2100,1,1),
                 LocalDate.of(2200,1,1),
                 "opis",
-                Status.In_progress,
+                SprintStatus.In_progress,
                 null
         );
         sprintRepository.save(sprint);

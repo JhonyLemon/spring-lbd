@@ -1,9 +1,8 @@
-package com.example.springlbd.repositories.sprint;
+package com.example.springlbd.repositories;
 
-import com.example.springlbd.entity.sprint.Sprint;
-import com.example.springlbd.entity.userstory.UserStory;
+import com.example.springlbd.entity.Sprint;
+import com.example.springlbd.entity.UserStory;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.time.LocalDate;

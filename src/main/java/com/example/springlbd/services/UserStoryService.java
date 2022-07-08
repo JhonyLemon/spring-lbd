@@ -1,8 +1,8 @@
-package com.example.springlbd.services.userstory;
+package com.example.springlbd.services;
 
-import com.example.springlbd.entity.userstory.Status;
-import com.example.springlbd.entity.userstory.UserStory;
-import com.example.springlbd.repositories.userstory.UserStoryRepository;
+import com.example.springlbd.entity.enums.UserStoryStatus;
+import com.example.springlbd.entity.UserStory;
+import com.example.springlbd.repositories.UserStoryRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,7 +23,7 @@ public class UserStoryService {
         if(userStory.getDescription()==null)
             throw new IllegalArgumentException("Pole opisu user story nie może być puste");
         if(userStory.getStatus()==null)
-            userStory.setStatus(Status.To_do);
+            userStory.setStatus(UserStoryStatus.To_do);
 
         return userStoryRepository.save(userStory);
     }
