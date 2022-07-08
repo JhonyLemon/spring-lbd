@@ -7,7 +7,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -40,5 +45,12 @@ public class SpringLbdUserStoryServiceTests {
         );
         assertThrows(IllegalArgumentException.class,() -> userStoryService.saveUserStory(story));
     }
+
+    @Test
+    void givenDataCreated_whenFindAllPaginated_thenSuccess(){
+        List<UserStory> retrivedUserStories = userStoryService.findAllPaginated(PageRequest.of(0,3));
+        assertThat(retrivedUserStories,hasSize(3));
+    }
+
 
 }

@@ -6,6 +6,10 @@ import com.example.springlbd.repositories.sprint.SprintRepository;
 import com.example.springlbd.repositories.userstory.UserStoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -71,4 +75,12 @@ public class SprintService {
         userStories.forEach(x -> userStoryRepository.save(x));
         return s;
     }
+
+    public List<Sprint> findAllPaginated(Pageable pageable){
+        Page<Sprint> retrivedSprints = sprintRepository
+                .findAll(pageable);
+        return retrivedSprints.getContent();
+    }
+
+
 }
