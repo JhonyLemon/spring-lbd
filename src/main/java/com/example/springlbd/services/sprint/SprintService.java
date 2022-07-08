@@ -68,10 +68,7 @@ public class SprintService {
     public Sprint saveSprintAndUserStories(Sprint sprint,List<UserStory> userStories){
         LOG.info("Starting transaction");
         Sprint s=saveSprint(sprint);
-        for (UserStory u :
-                userStories) {
-            userStoryRepository.save(u);
-        }
+        userStories.forEach(x -> userStoryRepository.save(x));
         return s;
     }
 }
