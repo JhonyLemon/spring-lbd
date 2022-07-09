@@ -19,70 +19,14 @@ import java.util.*;
 public class TestUserStoriesLoader implements ApplicationContextAware {
 
     @Autowired
-    UserStoryRepository repositoryu;
-
-    @Autowired
-    SprintRepository repositorys;
+    UserStoryRepository repository;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException{
         Random random = new Random();
-        Sprint sprint = new Sprint(
-                2L,
-                "sprint1",
-                LocalDate.of(2000,1,1),
-                LocalDate.of(2001,1,1),
-                "opis",
-                SprintStatus.In_progress,
-                new HashSet<>(Arrays.asList(
-                        new UserStory(
-                                "name",
-                                "gfjsdsf",
-                                30L,
-                                UserStoryStatus.In_progress,
-                                null
-                        ),
-                        new UserStory(
-                                "name",
-                                "gfjsdsf",
-                                30L,
-                                UserStoryStatus.In_progress,
-                                null
-                        ),
-                        new UserStory(
-                                "name",
-                                "gfjsdsf",
-                                30L,
-                                UserStoryStatus.In_progress,
-                                null
-                        ),
-                        new UserStory(
-                                "name",
-                                "gfjsdsf",
-                                30L,
-                                UserStoryStatus.In_progress,
-                                null
-                        ),
-                        new UserStory(
-                                "name",
-                                "gfjsdsf",
-                                30L,
-                                UserStoryStatus.In_progress,
-                                null
-                        )
-                ))
-        );
-
-        for (UserStory u :
-                sprint.getUserStories()) {
-            repositoryu.save(u);
-        }
-        repositorys.save(sprint);
-
-        Set<UserStory> userStorySet= new HashSet<>();
         for (Integer i=0; i<100; i++){
 
-            repositoryu.save(new UserStory(
+            repository.save(new UserStory(
                     UUID.randomUUID().toString(),
                     UUID.randomUUID().toString(),
                     (long)random.nextInt(100),

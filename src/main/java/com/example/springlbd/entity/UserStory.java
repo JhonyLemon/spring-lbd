@@ -26,7 +26,7 @@ public class UserStory {
     @Enumerated(EnumType.STRING)
     private UserStoryStatus userStoryStatus;
 
-    @ManyToMany(mappedBy = "userStories")
+    @ManyToMany(mappedBy = "userStories",cascade = CascadeType.PERSIST)
     private Set<Sprint> sprints;
 
     public UserStory(Long id, String name, String description, Long storyPoints, UserStoryStatus userStoryStatus, Set<Sprint> sprints) {

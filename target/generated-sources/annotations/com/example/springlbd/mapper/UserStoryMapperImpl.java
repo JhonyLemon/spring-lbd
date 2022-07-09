@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-07-08T21:50:30+0200",
+    date = "2022-07-09T10:10:19+0200",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.11 (Oracle Corporation)"
 )
 @Component
@@ -29,7 +29,6 @@ public class UserStoryMapperImpl implements UserStoryMapper {
         userStoryDto.setName( source.getName() );
         userStoryDto.setDescription( source.getDescription() );
         userStoryDto.setStoryPoints( source.getStoryPoints() );
-        userStoryDto.setSprints( sprintSetToSprintDtoSet( source.getSprints() ) );
 
         return userStoryDto;
     }
@@ -49,49 +48,6 @@ public class UserStoryMapperImpl implements UserStoryMapper {
         userStory.setSprints( sprintDtoSetToSprintSet( destination.getSprints() ) );
 
         return userStory;
-    }
-
-    protected Set<UserStoryDto> userStorySetToUserStoryDtoSet(Set<UserStory> set) {
-        if ( set == null ) {
-            return null;
-        }
-
-        Set<UserStoryDto> set1 = new LinkedHashSet<UserStoryDto>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
-        for ( UserStory userStory : set ) {
-            set1.add( mapEntityToDto( userStory ) );
-        }
-
-        return set1;
-    }
-
-    protected SprintDto sprintToSprintDto(Sprint sprint) {
-        if ( sprint == null ) {
-            return null;
-        }
-
-        SprintDto sprintDto = new SprintDto();
-
-        sprintDto.setId( sprint.getId() );
-        sprintDto.setName( sprint.getName() );
-        sprintDto.setBeginDate( sprint.getBeginDate() );
-        sprintDto.setEndDate( sprint.getEndDate() );
-        sprintDto.setGoalDescription( sprint.getGoalDescription() );
-        sprintDto.setUserStories( userStorySetToUserStoryDtoSet( sprint.getUserStories() ) );
-
-        return sprintDto;
-    }
-
-    protected Set<SprintDto> sprintSetToSprintDtoSet(Set<Sprint> set) {
-        if ( set == null ) {
-            return null;
-        }
-
-        Set<SprintDto> set1 = new LinkedHashSet<SprintDto>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
-        for ( Sprint sprint : set ) {
-            set1.add( sprintToSprintDto( sprint ) );
-        }
-
-        return set1;
     }
 
     protected Set<UserStory> userStoryDtoSetToUserStorySet(Set<UserStoryDto> set) {
