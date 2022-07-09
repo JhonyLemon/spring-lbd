@@ -68,5 +68,14 @@ public class UserStoryService {
         return userStoryMapper.mapEntityToDtoIgnoreAttachmentsAndDescription(optional.get());
     }
 
+    public String getUserStoryDescriptionById(Long id){
+        if(id<1)
+            throw new IllegalArgumentException("id nie może być mniejsze od 1");
+        Optional<String> optional= userStoryRepository.findUserStoryDescriptionById(id);
+        if(!optional.isPresent())
+            throw new EmptyResultDataAccessException("User story o podanym id nie istnieje",0);
+        return optional.get();
+    }
+
 
 }

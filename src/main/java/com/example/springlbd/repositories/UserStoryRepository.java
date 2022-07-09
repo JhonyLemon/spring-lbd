@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface UserStoryRepository extends PagingAndSortingRepository<UserStory,Long> {
 
-
+    @Query("SELECT u.description FROM UserStory u WHERE u.id=?1")
+    Optional<String> findUserStoryDescriptionById(Long id);
 
 }

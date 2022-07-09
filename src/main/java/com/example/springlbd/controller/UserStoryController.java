@@ -20,9 +20,15 @@ public class UserStoryController {
         return userStoryService.addUserStoryToSprint(id,userStoryDto);
     }
 
-    @GetMapping
+    @GetMapping("/BySprintId")
     public Set<UserStoryDto> getUserStoriesBySprintId(@RequestParam("id") Long id){
         return userStoryService.getUserStoriesBySprintId(id);
     }
+
+    @GetMapping("/DescriptionById")
+    public String getUserStoryDescriptionById(@RequestParam("id") Long id){
+        return userStoryService.getUserStoryDescriptionById(id);
+    }
+
 
 }
