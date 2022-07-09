@@ -1,11 +1,9 @@
 package com.example.springlbd.controller;
 
 import com.example.springlbd.dto.SprintDto;
+import com.example.springlbd.entity.enums.SprintStatus;
 import com.example.springlbd.services.SprintService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
@@ -26,6 +24,15 @@ public class SprintController {
     @GetMapping("/points")
     public Long countStoryPointsBySprintId(@RequestParam("id") Long id){
         return sprintService.countStoryPointsBySprintId(id);
+    }
+
+    @PutMapping("/update/{id}/{status}")
+    public void updateStatus(
+            @PathVariable("id") Long id,
+            @PathVariable("status") SprintStatus status){
+
+        sprintService.updateSprintStatus(id,status);
+
     }
 
 }

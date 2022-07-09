@@ -3,6 +3,7 @@ package com.example.springlbd.services;
 import com.example.springlbd.dto.SprintDto;
 import com.example.springlbd.entity.Sprint;
 import com.example.springlbd.entity.UserStory;
+import com.example.springlbd.entity.enums.SprintStatus;
 import com.example.springlbd.mapper.SprintMapper;
 import com.example.springlbd.repositories.SprintRepository;
 import com.example.springlbd.repositories.UserStoryRepository;
@@ -77,7 +78,15 @@ public class SprintService {
         return sprintMapper.mapEntityToDtoWithWithoutUserStories(tasks,sprintRepository.findAll());
     }
 
-
+    @Transactional
+    public void updateSprintStatus(Long id, SprintStatus status){
+        if(id<1)
+            throw new IllegalArgumentException("id nie może być mniejsze od 1");
+        Optional<Sprint> optional= sprintRepository.findById(id);
+        if(!optional.isPresent())
+            throw new EmptyResultDataAccessException("Sprint o podanym id nie istnieje",0);
+        optional.get().setStatus(status);
+    }
 
 
 }
