@@ -4,7 +4,9 @@ import com.example.springlbd.dto.SprintDto;
 import com.example.springlbd.dto.UserStoryDto;
 import com.example.springlbd.entity.Sprint;
 import com.example.springlbd.entity.UserStory;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import javax.annotation.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-07-09T17:38:31+0200",
+    date = "2022-07-09T22:24:08+0200",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.11 (Oracle Corporation)"
 )
 @Component
@@ -72,7 +74,7 @@ public class UserStoryMapperImpl implements UserStoryMapper {
     }
 
     @Override
-    public Set<UserStoryDto> mapEntitySetToDtoSetWithoutConstraints(Set<UserStory> source) {
+    public Set<UserStoryDto> mapUserStorySetToDtoSetWithoutConstraints(Set<UserStory> source) {
         if ( source == null ) {
             return null;
         }
@@ -83,6 +85,20 @@ public class UserStoryMapperImpl implements UserStoryMapper {
         }
 
         return set;
+    }
+
+    @Override
+    public List<UserStoryDto> mapUserStoryListToDtoListWithoutConstraints(List<UserStory> source) {
+        if ( source == null ) {
+            return null;
+        }
+
+        List<UserStoryDto> list = new ArrayList<UserStoryDto>( source.size() );
+        for ( UserStory userStory : source ) {
+            list.add( mapEntityToDtoWithoutConstraints( userStory ) );
+        }
+
+        return list;
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
+import java.util.List;
 import java.util.Set;
 
 @Mapper(componentModel = "spring",uses = {
@@ -29,7 +30,11 @@ public interface UserStoryMapper {
     UserStoryDto mapEntityToDtoWithoutConstraints(UserStory source);
     @IterableMapping(qualifiedByName = "baseUserStoryToDtoWithoutConstraints")
     @Named("baseUserStorySetToDtoSetWithoutConstraints")
-    Set<UserStoryDto> mapEntitySetToDtoSetWithoutConstraints(Set<UserStory> source);
+    Set<UserStoryDto> mapUserStorySetToDtoSetWithoutConstraints(Set<UserStory> source);
+
+    @IterableMapping(qualifiedByName = "baseUserStoryToDtoWithoutConstraints")
+    @Named("baseUserStoryListToDtoListWithoutConstraints")
+    List<UserStoryDto> mapUserStoryListToDtoListWithoutConstraints(List<UserStory> source);
 
     @Named("baseUserStoryDtoToEntity")
     UserStory mapDtoToEntity(UserStoryDto destination);

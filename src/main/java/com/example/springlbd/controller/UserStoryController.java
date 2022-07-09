@@ -1,9 +1,9 @@
 package com.example.springlbd.controller;
-import com.example.springlbd.dto.AttachmentsDto;
 import com.example.springlbd.dto.UserStoryDto;
 import com.example.springlbd.services.UserStoryService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -34,6 +34,12 @@ public class UserStoryController {
     @DeleteMapping("/delete/{id}")
     public void deleteUserStoryById(@PathVariable("id") Long id){
         userStoryService.deleteUserStoryById(id);
+    }
+
+    @GetMapping("/sortedByName")
+    public List<UserStoryDto> getSortedByNamePage(@RequestParam("pageSize") Integer pageSize,
+                                  @RequestParam("pageNumber") Integer pageNumber){
+        return userStoryService.getSortedByNamePage(pageSize,pageNumber);
     }
 
 

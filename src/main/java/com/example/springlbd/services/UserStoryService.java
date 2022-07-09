@@ -8,13 +8,13 @@ import com.example.springlbd.mapper.UserStoryMapper;
 import com.example.springlbd.repositories.SprintRepository;
 import com.example.springlbd.repositories.UserStoryRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserStoryService {
@@ -92,5 +92,9 @@ public class UserStoryService {
         userStoryRepository.delete(optionalUserStory.get());
     }
 
+    public List<UserStoryDto> getSortedByNamePage(Integer pageSize, Integer pageNumber){
+        Page<UserStory> userStoryPage = userStoryRepository.findAll(PageRequest.of(pageNumber,pageSize, Sort.by("name").ascending()));
+        return userStoryMapper.mapUserStoryListToDtoListWithoutConstraints(userStoryPage.getContent());
+    }
 
 }
