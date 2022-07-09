@@ -1,8 +1,7 @@
 package com.example.springlbd.mapper;
 
 import com.example.springlbd.dto.AttachmentsDto;
-import com.example.springlbd.entity.Attachments;
-import java.util.Arrays;
+import com.example.springlbd.entity.Attachment;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.annotation.Generated;
@@ -10,14 +9,14 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-07-09T16:22:22+0200",
+    date = "2022-07-09T17:39:00+0200",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.11 (Oracle Corporation)"
 )
 @Component
 public class AttachmentsMapperImpl implements AttachmentsMapper {
 
     @Override
-    public AttachmentsDto mapEntityToDto(Attachments source) {
+    public AttachmentsDto mapEntityToDto(Attachment source) {
         if ( source == null ) {
             return null;
         }
@@ -25,58 +24,86 @@ public class AttachmentsMapperImpl implements AttachmentsMapper {
         AttachmentsDto attachmentsDto = new AttachmentsDto();
 
         attachmentsDto.setId( source.getId() );
-        Byte[] attachment = source.getAttachment();
-        if ( attachment != null ) {
-            attachmentsDto.setAttachment( Arrays.copyOf( attachment, attachment.length ) );
-        }
+        attachmentsDto.setAttachment( byteArrayToByteArray( source.getAttachment() ) );
         attachmentsDto.setUserStory( source.getUserStory() );
+        attachmentsDto.setName( source.getName() );
+        attachmentsDto.setType( source.getType() );
 
         return attachmentsDto;
     }
 
     @Override
-    public Attachments mapDtoToEntity(AttachmentsDto destination) {
+    public Attachment mapDtoToEntity(AttachmentsDto destination) {
         if ( destination == null ) {
             return null;
         }
 
-        Attachments attachments = new Attachments();
+        Attachment attachment = new Attachment();
 
-        attachments.setId( destination.getId() );
-        Byte[] attachment = destination.getAttachment();
-        if ( attachment != null ) {
-            attachments.setAttachment( Arrays.copyOf( attachment, attachment.length ) );
-        }
-        attachments.setUserStory( destination.getUserStory() );
+        attachment.setId( destination.getId() );
+        attachment.setAttachment( byteArrayTobyteArray( destination.getAttachment() ) );
+        attachment.setUserStory( destination.getUserStory() );
+        attachment.setName( destination.getName() );
+        attachment.setType( destination.getType() );
 
-        return attachments;
+        return attachment;
     }
 
     @Override
-    public Set<AttachmentsDto> mapEntityToDto(Set<Attachments> source) {
+    public Set<AttachmentsDto> mapEntityToDto(Set<Attachment> source) {
         if ( source == null ) {
             return null;
         }
 
         Set<AttachmentsDto> set = new LinkedHashSet<AttachmentsDto>( Math.max( (int) ( source.size() / .75f ) + 1, 16 ) );
-        for ( Attachments attachments : source ) {
-            set.add( mapEntityToDto( attachments ) );
+        for ( Attachment attachment : source ) {
+            set.add( mapEntityToDto( attachment ) );
         }
 
         return set;
     }
 
     @Override
-    public Set<Attachments> mapDtoToEntity(Set<AttachmentsDto> destination) {
+    public Set<Attachment> mapDtoToEntity(Set<AttachmentsDto> destination) {
         if ( destination == null ) {
             return null;
         }
 
-        Set<Attachments> set = new LinkedHashSet<Attachments>( Math.max( (int) ( destination.size() / .75f ) + 1, 16 ) );
+        Set<Attachment> set = new LinkedHashSet<Attachment>( Math.max( (int) ( destination.size() / .75f ) + 1, 16 ) );
         for ( AttachmentsDto attachmentsDto : destination ) {
             set.add( mapDtoToEntity( attachmentsDto ) );
         }
 
         return set;
+    }
+
+    protected Byte[] byteArrayToByteArray(byte[] byteArray) {
+        if ( byteArray == null ) {
+            return null;
+        }
+
+        Byte[] byteTmp = new Byte[byteArray.length];
+        int i = 0;
+        for ( byte byte1 : byteArray ) {
+            byteTmp[i] = byte1;
+            i++;
+        }
+
+        return byteTmp;
+    }
+
+    protected byte[] byteArrayTobyteArray(Byte[] byteArray) {
+        if ( byteArray == null ) {
+            return null;
+        }
+
+        byte[] byteTmp = new byte[byteArray.length];
+        int i = 0;
+        for ( Byte byte1 : byteArray ) {
+            byteTmp[i] = byte1;
+            i++;
+        }
+
+        return byteTmp;
     }
 }

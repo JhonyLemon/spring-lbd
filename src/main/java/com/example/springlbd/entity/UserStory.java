@@ -1,7 +1,6 @@
 package com.example.springlbd.entity;
 
 import com.example.springlbd.entity.enums.UserStoryStatus;
-import com.example.springlbd.entity.Sprint;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -20,8 +19,8 @@ public class UserStory {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @OneToMany(mappedBy = "userStory",cascade = CascadeType.PERSIST)
-    private Set<Attachments> attachments;
+    @OneToMany(mappedBy = "userStory",cascade = CascadeType.ALL)
+    private Set<Attachment> attachments;
 
     @Column(name = "STORY_POINTS")
     private Long storyPoints;
@@ -34,7 +33,7 @@ public class UserStory {
     private Set<Sprint> sprints;
 
 
-    public UserStory(Long id, String name, String description, Set<Attachments> attachments, Long storyPoints, UserStoryStatus userStoryStatus, Set<Sprint> sprints) {
+    public UserStory(Long id, String name, String description, Set<Attachment> attachments, Long storyPoints, UserStoryStatus userStoryStatus, Set<Sprint> sprints) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -44,7 +43,7 @@ public class UserStory {
         this.sprints = sprints;
     }
 
-    public UserStory(String name, String description, Set<Attachments> attachments, Long storyPoints, UserStoryStatus userStoryStatus, Set<Sprint> sprints) {
+    public UserStory(String name, String description, Set<Attachment> attachments, Long storyPoints, UserStoryStatus userStoryStatus, Set<Sprint> sprints) {
         this.name = name;
         this.description = description;
         this.attachments = attachments;
@@ -96,11 +95,11 @@ public class UserStory {
         this.sprints = sprints;
     }
 
-    public Set<Attachments> getAttachments() {
+    public Set<Attachment> getAttachments() {
         return attachments;
     }
 
-    public void setAttachments(Set<Attachments> attachments) {
+    public void setAttachments(Set<Attachment> attachments) {
         this.attachments = attachments;
     }
 

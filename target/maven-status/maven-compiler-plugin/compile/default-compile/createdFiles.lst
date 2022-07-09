@@ -1,12 +1,14 @@
 com\example\springlbd\entity\enums\SprintStatus.class
 com\example\springlbd\services\UserStoryService.class
 com\example\springlbd\mapper\UserStoryMapperImpl.class
-com\example\springlbd\entity\Attachments.class
 com\example\springlbd\aspects\SprintServiceAspect.class
 com\example\springlbd\mapper\AttachmentsMapper.class
+com\example\springlbd\repositories\AttachmentsRepository.class
 com\example\springlbd\dto\SprintDto.class
 com\example\springlbd\dto\AttachmentsDto.class
+com\example\springlbd\controller\AttachmentsController.class
 com\example\springlbd\errorhandling\Error.class
+com\example\springlbd\services\AttachmentsService.class
 com\example\springlbd\context\TestUserStoriesLoader.class
 com\example\springlbd\mapper\UserStoryMapper.class
 com\example\springlbd\dto\UserStoryDto.class
@@ -20,6 +22,7 @@ com\example\springlbd\mapper\SprintMapperImpl.class
 com\example\springlbd\controller\SprintController.class
 com\example\springlbd\services\SprintService.class
 com\example\springlbd\SpringLbdApplication.class
+com\example\springlbd\entity\Attachment.class
 com\example\springlbd\errorhandling\ControllersAdvice.class
 com\example\springlbd\controller\UserStoryController.class
 com\example\springlbd\repositories\SprintRepository.class

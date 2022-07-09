@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import java.io.IOException;
+
 @ControllerAdvice
 public class ControllersAdvice {
 
@@ -51,4 +53,16 @@ public class ControllersAdvice {
                 ),
                 HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(IOException.class)
+    protected ResponseEntity<Error> handleMissingServletRequestParameter(
+            IOException ex) {
+        return new ResponseEntity<>(
+                new Error(
+                        "File error",
+                        ex.getMessage()
+                ),
+                HttpStatus.BAD_REQUEST);
+    }
+
 }

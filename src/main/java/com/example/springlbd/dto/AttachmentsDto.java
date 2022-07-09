@@ -5,14 +5,15 @@ import com.example.springlbd.entity.UserStory;
 public class AttachmentsDto {
 
     private Long id;
-
     private Byte[] attachment;
+    private String name;
 
     private UserStory userStory;
 
-    public AttachmentsDto(Long id, Byte[] attachment, UserStory userStory) {
+    public AttachmentsDto(Long id, Byte[] attachment, String name, UserStory userStory) {
         this.id = id;
         this.attachment = attachment;
+        this.name = name;
         this.userStory = userStory;
     }
 
@@ -41,5 +42,13 @@ public class AttachmentsDto {
 
     public void setUserStory(UserStory userStory) {
         this.userStory = userStory;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

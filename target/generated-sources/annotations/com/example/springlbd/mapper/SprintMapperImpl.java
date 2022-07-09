@@ -3,10 +3,9 @@ package com.example.springlbd.mapper;
 import com.example.springlbd.dto.AttachmentsDto;
 import com.example.springlbd.dto.SprintDto;
 import com.example.springlbd.dto.UserStoryDto;
-import com.example.springlbd.entity.Attachments;
+import com.example.springlbd.entity.Attachment;
 import com.example.springlbd.entity.Sprint;
 import com.example.springlbd.entity.UserStory;
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.annotation.Generated;
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-07-09T16:30:30+0200",
+    date = "2022-07-09T17:38:31+0200",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.11 (Oracle Corporation)"
 )
 @Component
@@ -158,31 +157,45 @@ public class SprintMapperImpl implements SprintMapper {
         return set1;
     }
 
-    protected AttachmentsDto attachmentsToAttachmentsDto(Attachments attachments) {
-        if ( attachments == null ) {
+    protected Byte[] byteArrayToByteArray(byte[] byteArray) {
+        if ( byteArray == null ) {
+            return null;
+        }
+
+        Byte[] byteTmp = new Byte[byteArray.length];
+        int i = 0;
+        for ( byte byte1 : byteArray ) {
+            byteTmp[i] = byte1;
+            i++;
+        }
+
+        return byteTmp;
+    }
+
+    protected AttachmentsDto attachmentToAttachmentsDto(Attachment attachment) {
+        if ( attachment == null ) {
             return null;
         }
 
         AttachmentsDto attachmentsDto = new AttachmentsDto();
 
-        attachmentsDto.setId( attachments.getId() );
-        Byte[] attachment = attachments.getAttachment();
-        if ( attachment != null ) {
-            attachmentsDto.setAttachment( Arrays.copyOf( attachment, attachment.length ) );
-        }
-        attachmentsDto.setUserStory( attachments.getUserStory() );
+        attachmentsDto.setId( attachment.getId() );
+        attachmentsDto.setAttachment( byteArrayToByteArray( attachment.getAttachment() ) );
+        attachmentsDto.setUserStory( attachment.getUserStory() );
+        attachmentsDto.setName( attachment.getName() );
+        attachmentsDto.setType( attachment.getType() );
 
         return attachmentsDto;
     }
 
-    protected Set<AttachmentsDto> attachmentsSetToAttachmentsDtoSet(Set<Attachments> set) {
+    protected Set<AttachmentsDto> attachmentSetToAttachmentsDtoSet(Set<Attachment> set) {
         if ( set == null ) {
             return null;
         }
 
         Set<AttachmentsDto> set1 = new LinkedHashSet<AttachmentsDto>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
-        for ( Attachments attachments : set ) {
-            set1.add( attachmentsToAttachmentsDto( attachments ) );
+        for ( Attachment attachment : set ) {
+            set1.add( attachmentToAttachmentsDto( attachment ) );
         }
 
         return set1;
@@ -201,7 +214,7 @@ public class SprintMapperImpl implements SprintMapper {
         userStoryDto.setStoryPoints( userStory.getStoryPoints() );
         userStoryDto.setUserStoryStatus( userStory.getUserStoryStatus() );
         userStoryDto.setSprints( sprintSetToSprintDtoSet( userStory.getSprints() ) );
-        userStoryDto.setAttachments( attachmentsSetToAttachmentsDtoSet( userStory.getAttachments() ) );
+        userStoryDto.setAttachments( attachmentSetToAttachmentsDtoSet( userStory.getAttachments() ) );
 
         return userStoryDto;
     }
@@ -249,31 +262,45 @@ public class SprintMapperImpl implements SprintMapper {
         return set1;
     }
 
-    protected Attachments attachmentsDtoToAttachments(AttachmentsDto attachmentsDto) {
+    protected byte[] byteArrayTobyteArray(Byte[] byteArray) {
+        if ( byteArray == null ) {
+            return null;
+        }
+
+        byte[] byteTmp = new byte[byteArray.length];
+        int i = 0;
+        for ( Byte byte1 : byteArray ) {
+            byteTmp[i] = byte1;
+            i++;
+        }
+
+        return byteTmp;
+    }
+
+    protected Attachment attachmentsDtoToAttachment(AttachmentsDto attachmentsDto) {
         if ( attachmentsDto == null ) {
             return null;
         }
 
-        Attachments attachments = new Attachments();
+        Attachment attachment = new Attachment();
 
-        attachments.setId( attachmentsDto.getId() );
-        Byte[] attachment = attachmentsDto.getAttachment();
-        if ( attachment != null ) {
-            attachments.setAttachment( Arrays.copyOf( attachment, attachment.length ) );
-        }
-        attachments.setUserStory( attachmentsDto.getUserStory() );
+        attachment.setId( attachmentsDto.getId() );
+        attachment.setAttachment( byteArrayTobyteArray( attachmentsDto.getAttachment() ) );
+        attachment.setUserStory( attachmentsDto.getUserStory() );
+        attachment.setName( attachmentsDto.getName() );
+        attachment.setType( attachmentsDto.getType() );
 
-        return attachments;
+        return attachment;
     }
 
-    protected Set<Attachments> attachmentsDtoSetToAttachmentsSet(Set<AttachmentsDto> set) {
+    protected Set<Attachment> attachmentsDtoSetToAttachmentSet(Set<AttachmentsDto> set) {
         if ( set == null ) {
             return null;
         }
 
-        Set<Attachments> set1 = new LinkedHashSet<Attachments>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
+        Set<Attachment> set1 = new LinkedHashSet<Attachment>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
         for ( AttachmentsDto attachmentsDto : set ) {
-            set1.add( attachmentsDtoToAttachments( attachmentsDto ) );
+            set1.add( attachmentsDtoToAttachment( attachmentsDto ) );
         }
 
         return set1;
@@ -291,7 +318,7 @@ public class SprintMapperImpl implements SprintMapper {
         userStory.setDescription( userStoryDto.getDescription() );
         userStory.setStoryPoints( userStoryDto.getStoryPoints() );
         userStory.setSprints( sprintDtoSetToSprintSet( userStoryDto.getSprints() ) );
-        userStory.setAttachments( attachmentsDtoSetToAttachmentsSet( userStoryDto.getAttachments() ) );
+        userStory.setAttachments( attachmentsDtoSetToAttachmentSet( userStoryDto.getAttachments() ) );
         userStory.setUserStoryStatus( userStoryDto.getUserStoryStatus() );
 
         return userStory;

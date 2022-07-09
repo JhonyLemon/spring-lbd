@@ -1,4 +1,5 @@
 package com.example.springlbd.controller;
+import com.example.springlbd.dto.AttachmentsDto;
 import com.example.springlbd.dto.UserStoryDto;
 import com.example.springlbd.services.UserStoryService;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +10,7 @@ import java.util.Set;
 @RequestMapping(value = "/userstory")
 public class UserStoryController {
 
-    UserStoryService userStoryService;
+    private UserStoryService userStoryService;
 
     public UserStoryController(UserStoryService userStoryService) {
         this.userStoryService = userStoryService;
@@ -29,6 +30,7 @@ public class UserStoryController {
     public String getUserStoryDescriptionById(@RequestParam("id") Long id){
         return userStoryService.getUserStoryDescriptionById(id);
     }
+
 
 
 }

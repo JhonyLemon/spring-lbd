@@ -1,7 +1,7 @@
 package com.example.springlbd.mapper;
 
 import com.example.springlbd.dto.AttachmentsDto;
-import com.example.springlbd.entity.Attachments;
+import com.example.springlbd.entity.Attachment;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
@@ -12,13 +12,13 @@ import java.util.Set;
 public interface AttachmentsMapper {
 
     @Named("baseEntityToDto")
-    AttachmentsDto mapEntityToDto(Attachments source);
+    AttachmentsDto mapEntityToDto(Attachment source);
     @Named("baseDtoToEntity")
-    Attachments mapDtoToEntity(AttachmentsDto destination);
+    Attachment mapDtoToEntity(AttachmentsDto destination);
 
     @IterableMapping(qualifiedByName = "baseEntityToDto")
-    Set<AttachmentsDto> mapEntityToDto(Set<Attachments> source);
+    Set<AttachmentsDto> mapEntityToDto(Set<Attachment> source);
     @IterableMapping(qualifiedByName = "baseDtoToEntity")
-    Set<Attachments> mapDtoToEntity(Set<AttachmentsDto> destination);
+    Set<Attachment> mapDtoToEntity(Set<AttachmentsDto> destination);
 
 }

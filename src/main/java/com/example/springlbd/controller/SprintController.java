@@ -13,7 +13,7 @@ import java.util.Set;
 @RequestMapping(value = "/sprint")
 public class SprintController {
 
-    SprintService sprintService;
+    private SprintService sprintService;
 
     public SprintController(SprintService sprintService) {
         this.sprintService = sprintService;
