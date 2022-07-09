@@ -1,14 +1,19 @@
 package com.example.springlbd.repositories;
 
+import com.example.springlbd.entity.Sprint;
 import com.example.springlbd.entity.UserStory;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.Optional;
+import java.util.Set;
 
 public interface UserStoryRepository extends PagingAndSortingRepository<UserStory,Long> {
 
     @Query("SELECT u.description FROM UserStory u WHERE u.id=?1")
     Optional<String> findUserStoryDescriptionById(Long id);
+
+    @Query("SELECT S FROM Sprint S INNER JOIN S.userStories U WHERE U.id=?1")
+    Optional<Set<Sprint>> getSprintsWithUserStoryOfId(Long id);
 
 }

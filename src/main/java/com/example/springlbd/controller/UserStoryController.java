@@ -31,6 +31,10 @@ public class UserStoryController {
         return userStoryService.getUserStoryDescriptionById(id);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public void deleteUserStoryById(@PathVariable("id") Long id){
+        userStoryService.deleteUserStoryById(id);
+    }
 
 
 }

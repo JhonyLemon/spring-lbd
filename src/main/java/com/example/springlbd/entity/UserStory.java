@@ -29,7 +29,7 @@ public class UserStory {
     @Enumerated(EnumType.STRING)
     private UserStoryStatus userStoryStatus;
 
-    @ManyToMany(mappedBy = "userStories",cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "userStories",cascade = {CascadeType.DETACH,CascadeType.PERSIST})
     private Set<Sprint> sprints;
 
 
