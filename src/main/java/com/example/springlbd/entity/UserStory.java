@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@Table(name = "USER_STORY")
 public class UserStory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +20,9 @@ public class UserStory {
     @Column(name = "DESCRIPTION")
     private String description;
 
+    @OneToMany(mappedBy = "userStory",cascade = CascadeType.PERSIST)
+    private Set<Attachments> attachments;
+
     @Column(name = "STORY_POINTS")
     private Long storyPoints;
 
@@ -29,18 +33,21 @@ public class UserStory {
     @ManyToMany(mappedBy = "userStories",cascade = CascadeType.PERSIST)
     private Set<Sprint> sprints;
 
-    public UserStory(Long id, String name, String description, Long storyPoints, UserStoryStatus userStoryStatus, Set<Sprint> sprints) {
+
+    public UserStory(Long id, String name, String description, Set<Attachments> attachments, Long storyPoints, UserStoryStatus userStoryStatus, Set<Sprint> sprints) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.attachments = attachments;
         this.storyPoints = storyPoints;
         this.userStoryStatus = userStoryStatus;
         this.sprints = sprints;
     }
 
-    public UserStory(String name, String description, Long storyPoints, UserStoryStatus userStoryStatus, Set<Sprint> sprints) {
+    public UserStory(String name, String description, Set<Attachments> attachments, Long storyPoints, UserStoryStatus userStoryStatus, Set<Sprint> sprints) {
         this.name = name;
         this.description = description;
+        this.attachments = attachments;
         this.storyPoints = storyPoints;
         this.userStoryStatus = userStoryStatus;
         this.sprints = sprints;
@@ -49,7 +56,6 @@ public class UserStory {
     public UserStory() {
 
     }
-
     public Long getId() {
         return id;
     }
@@ -82,19 +88,27 @@ public class UserStory {
         this.storyPoints = storyPoints;
     }
 
-    public UserStoryStatus getStatus() {
-        return userStoryStatus;
-    }
-
-    public void setStatus(UserStoryStatus userStoryStatus) {
-        this.userStoryStatus = userStoryStatus;
-    }
-
     public Set<Sprint> getSprints() {
         return sprints;
     }
 
     public void setSprints(Set<Sprint> sprints) {
         this.sprints = sprints;
+    }
+
+    public Set<Attachments> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(Set<Attachments> attachments) {
+        this.attachments = attachments;
+    }
+
+    public UserStoryStatus getUserStoryStatus() {
+        return userStoryStatus;
+    }
+
+    public void setUserStoryStatus(UserStoryStatus userStoryStatus) {
+        this.userStoryStatus = userStoryStatus;
     }
 }

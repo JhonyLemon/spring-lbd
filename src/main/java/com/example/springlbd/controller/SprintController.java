@@ -1,6 +1,6 @@
 package com.example.springlbd.controller;
 
-import com.example.springlbd.dto.SprintDto.SprintDto;
+import com.example.springlbd.dto.SprintDto;
 import com.example.springlbd.services.SprintService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

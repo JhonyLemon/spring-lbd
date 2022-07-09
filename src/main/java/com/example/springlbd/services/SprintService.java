@@ -1,38 +1,32 @@
 package com.example.springlbd.services;
 
-import com.example.springlbd.dto.SprintDto.SprintDto;
-import com.example.springlbd.dto.UserStoryDto.UserStoryDto;
+import com.example.springlbd.dto.SprintDto;
 import com.example.springlbd.entity.Sprint;
 import com.example.springlbd.entity.UserStory;
-import com.example.springlbd.mapper.SprintSetMapper;
+import com.example.springlbd.mapper.SprintMapper;
 import com.example.springlbd.repositories.SprintRepository;
 import com.example.springlbd.repositories.UserStoryRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.List;
+
 import java.util.Optional;
 import java.util.Set;
 
 @Service
 public class SprintService {
-
-    private static final Logger LOG = LoggerFactory.getLogger(SprintService.class);
-    private SprintRepository sprintRepository;
+        private SprintRepository sprintRepository;
 
     private UserStoryRepository userStoryRepository;
 
-    private SprintSetMapper sprintSetMapper;
+    private SprintMapper sprintMapper;
 
-    public SprintService(SprintRepository sprintRepository,UserStoryRepository userStoryRepository,SprintSetMapper sprintSetMapper) {
+    public SprintService(SprintRepository sprintRepository,UserStoryRepository userStoryRepository,SprintMapper sprintMapper) {
         this.sprintRepository = sprintRepository;
         this.userStoryRepository=userStoryRepository;
-        this.sprintSetMapper=sprintSetMapper;
+        this.sprintMapper=sprintMapper;
     }
 
     @Transactional
@@ -51,19 +45,16 @@ public class SprintService {
         return sprintRepository.save(sprint);
     }
 
-    public List<UserStory> getUserStories(Long id){
-        if(id<1)
-            throw new IllegalArgumentException("id nie może być mniejsze od 1");
-        Optional<List<UserStory>> optional= sprintRepository.findUserStoriesById(id);
-        return optional.get();
-    }
 
-    public List<Sprint> getSprintsBetweenDates(LocalDate start, LocalDate stop){
+
+    public Set<SprintDto> getSprintsBetweenDates(LocalDate start, LocalDate stop){
         if(start.isAfter(stop))
             throw new IllegalArgumentException("Data początku musi być przed data końca");
-        Optional<List<Sprint>> optional= sprintRepository
+        Optional<Set<Sprint>> optional= sprintRepository
                 .findByBeginDateGreaterThanEqualAndEndDateLessThanEqual(start,stop);
-        return optional.get();
+        if(!optional.isPresent())
+            throw new EmptyResultDataAccessException("Nie znaleziono sprintów pomiędzy datami("+start+"-"+stop+")",0);
+        return sprintMapper.mapEntityToDtoWithoutConstraints(optional.get());
     }
 
     public Long countStoryPointsBySprintId(Long id){
@@ -76,15 +67,14 @@ public class SprintService {
     }
 
     @Transactional
-    public Sprint saveSprintAndUserStories(Sprint sprint,List<UserStory> userStories){
-        LOG.info("Starting transaction");
+    public Sprint saveSprintAndUserStories(Sprint sprint,Set<UserStory> userStories){
         Sprint s=saveSprint(sprint);
         userStories.forEach(x -> userStoryRepository.save(x));
         return s;
     }
 
     public Set<SprintDto> findAllWithOrWithoutUserStories(Boolean tasks){
-        return sprintSetMapper.mapEntityToDtoWithWithoutUserStories(tasks,sprintRepository.findAll());
+        return sprintMapper.mapEntityToDtoWithWithoutUserStories(tasks,sprintRepository.findAll());
     }
 
 

@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
+@Table(name = "SPRINT")
 public class Sprint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

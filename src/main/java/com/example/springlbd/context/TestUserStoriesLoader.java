@@ -29,6 +29,7 @@ public class TestUserStoriesLoader implements ApplicationContextAware {
             repository.save(new UserStory(
                     UUID.randomUUID().toString(),
                     UUID.randomUUID().toString(),
+                    null,
                     (long)random.nextInt(100),
                     UserStoryStatus.values()[random.nextInt(3)],
                     null

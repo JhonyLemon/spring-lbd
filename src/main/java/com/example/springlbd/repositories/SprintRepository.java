@@ -13,9 +13,9 @@ import java.util.Set;
 public interface SprintRepository extends PagingAndSortingRepository<Sprint,Long> {
 
     @Query("SELECT s.userStories FROM Sprint s WHERE s.id=?1")
-    Optional<List<UserStory>> findUserStoriesById(Long id);
+    Optional<Set<UserStory>> findUserStoriesById(Long id);
 
-    Optional<List<Sprint>> findByBeginDateGreaterThanEqualAndEndDateLessThanEqual(LocalDate begin, LocalDate end);
+    Optional<Set<Sprint>> findByBeginDateGreaterThanEqualAndEndDateLessThanEqual(LocalDate begin, LocalDate end);
 
     @Query("SELECT SUM(u.storyPoints) FROM UserStory u INNER JOIN u.sprints s WHERE s.id=?1")
     Optional<Long> countStoryPointsBySprintId(Long id);

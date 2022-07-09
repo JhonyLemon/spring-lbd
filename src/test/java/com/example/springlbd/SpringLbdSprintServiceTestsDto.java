@@ -1,5 +1,6 @@
 package com.example.springlbd;
 
+import com.example.springlbd.dto.SprintDto;
 import com.example.springlbd.entity.Sprint;
 import com.example.springlbd.entity.enums.SprintStatus;
 import com.example.springlbd.entity.UserStory;
@@ -50,70 +51,7 @@ public class SpringLbdSprintServiceTestsDto {
         assertThrows(IllegalArgumentException.class,() -> sprintService.saveSprint(sprint));
     }
 
-    @Test
-    void whenGettingUserStoryBySprintId(){
-        final Sprint sprint = new Sprint(
-                2L,
-                "sprint1",
-                LocalDate.of(2000,1,1),
-                LocalDate.of(2001,1,1),
-                "opis",
-                SprintStatus.In_progress,
-                new HashSet<>(Arrays.asList(
-                        new UserStory(
-                                "name",
-                                "gfjsdsf",
-                                30L,
-                                UserStoryStatus.In_progress,
-                                null
-                        ),
-                        new UserStory(
-                                "name",
-                                "gfjsdsf",
-                                30L,
-                                UserStoryStatus.In_progress,
-                                null
-                        ),
-                        new UserStory(
-                                "name",
-                                "gfjsdsf",
-                                30L,
-                                UserStoryStatus.In_progress,
-                                null
-                        ),
-                        new UserStory(
-                                "name",
-                                "gfjsdsf",
-                                30L,
-                                UserStoryStatus.In_progress,
-                                null
-                        ),
-                        new UserStory(
-                                "name",
-                                "gfjsdsf",
-                                30L,
-                                UserStoryStatus.In_progress,
-                                null
-                        )
-                ))
-        );
 
-        for (UserStory u :
-                sprint.getUserStories()) {
-            userStoryService.saveUserStory(u);
-        }
-        sprintService.saveSprint(sprint);
-
-        List<UserStory> userStoryList = sprintService.getUserStories(2L);
-
-
-        assert (
-            userStoryList.size()==sprint.getUserStories().size() &&
-                    userStoryList.stream()
-                            .allMatch( a -> sprint.getUserStories().stream()
-                                    .anyMatch(b -> a.getId().equals(b.getId())))
-        );
-    }
 
     @Test
     void whenGettingUserStoryBetweenDates(){
@@ -150,9 +88,9 @@ public class SpringLbdSprintServiceTestsDto {
         sprint2=sprintService.saveSprint(sprint2);
         sprint3=sprintService.saveSprint(sprint3);
 
-        List<Sprint> sprintSet = sprintService.getSprintsBetweenDates(LocalDate.of(1601,1,1),LocalDate.of(1702,1,1));
+        Set<SprintDto> sprintSet = sprintService.getSprintsBetweenDates(LocalDate.of(1601,1,1),LocalDate.of(1702,1,1));
 
-        assertEquals(sprintSet.get(0).getId(),sprint2.getId());
+        assertEquals(sprintSet.size(),1);
     }
 
     @Test
@@ -168,6 +106,7 @@ public class SpringLbdSprintServiceTestsDto {
                         new UserStory(
                                 "name",
                                 "gfjsdsf",
+                                null,
                                 30L,
                                 UserStoryStatus.Done,
                                 null
@@ -175,6 +114,7 @@ public class SpringLbdSprintServiceTestsDto {
                         new UserStory(
                                 "name",
                                 "gfjsdsf",
+                                null,
                                 30L,
                                 UserStoryStatus.Done,
                                 null
@@ -182,6 +122,7 @@ public class SpringLbdSprintServiceTestsDto {
                         new UserStory(
                                 "name",
                                 "gfjsdsf",
+                                null,
                                 30L,
                                 UserStoryStatus.Done,
                                 null
@@ -189,6 +130,7 @@ public class SpringLbdSprintServiceTestsDto {
                         new UserStory(
                                 "name",
                                 "gfjsdsf",
+                                null,
                                 30L,
                                 UserStoryStatus.In_progress,
                                 null
@@ -196,6 +138,7 @@ public class SpringLbdSprintServiceTestsDto {
                         new UserStory(
                                 "name",
                                 "gfjsdsf",
+                                null,
                                 30L,
                                 UserStoryStatus.Review,
                                 null
@@ -211,7 +154,7 @@ public class SpringLbdSprintServiceTestsDto {
 
         Long points = sprintService.countStoryPointsBySprintId(2L);
 
-        assert (points==90L);
+        assert (points==150L);
     }
 
     @Test
@@ -228,6 +171,7 @@ public class SpringLbdSprintServiceTestsDto {
                         new UserStory(
                                 "name",
                                 "gfjsdsf",
+                                null,
                                 30L,
                                 UserStoryStatus.Done,
                                 null
@@ -235,6 +179,7 @@ public class SpringLbdSprintServiceTestsDto {
                         new UserStory(
                                 "name",
                                 "gfjsdsf",
+                                null,
                                 30L,
                                 UserStoryStatus.Done,
                                 null
@@ -242,6 +187,7 @@ public class SpringLbdSprintServiceTestsDto {
                         new UserStory(
                                 "name",
                                 "gfjsdsf",
+                                null,
                                 30L,
                                 UserStoryStatus.Done,
                                 null
@@ -249,6 +195,7 @@ public class SpringLbdSprintServiceTestsDto {
                         new UserStory(
                                 "name",
                                 "gfjsdsf",
+                                null,
                                 30L,
                                 UserStoryStatus.In_progress,
                                 null
@@ -256,6 +203,7 @@ public class SpringLbdSprintServiceTestsDto {
                         new UserStory(
                                 "name",
                                 "gfjsdsf",
+                                null,
                                 30L,
                                 UserStoryStatus.Review,
                                 null
@@ -263,7 +211,7 @@ public class SpringLbdSprintServiceTestsDto {
                 ))
         );
 
-        Sprint s=sprintService.saveSprintAndUserStories(sprint,List.copyOf(sprint.getUserStories()));
+        Sprint s=sprintService.saveSprintAndUserStories(sprint,sprint.getUserStories());
         assertNotNull(s);
     }
 

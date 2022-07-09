@@ -1,7 +1,6 @@
 package com.example.springlbd.services;
 
-import com.example.springlbd.dto.SprintDto.SprintDto;
-import com.example.springlbd.dto.UserStoryDto.UserStoryDto;
+import com.example.springlbd.dto.UserStoryDto;
 import com.example.springlbd.entity.Sprint;
 import com.example.springlbd.entity.enums.UserStoryStatus;
 import com.example.springlbd.entity.UserStory;
@@ -15,6 +14,7 @@ import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserStoryService {
@@ -36,8 +36,8 @@ public class UserStoryService {
             throw new IllegalArgumentException("Pole nazwy user story nie może być puste");
         if(userStory.getDescription()==null)
             throw new IllegalArgumentException("Pole opisu user story nie może być puste");
-        if(userStory.getStatus()==null)
-            userStory.setStatus(UserStoryStatus.To_do);
+        if(userStory.getUserStoryStatus()==null)
+            userStory.setUserStoryStatus(UserStoryStatus.To_do);
 
         return userStoryRepository.save(userStory);
     }
@@ -55,8 +55,18 @@ public class UserStoryService {
         optional.get().getUserStories().add(userStory);
         userStory = userStoryRepository.save(userStory);
 
-        UserStoryDto dto = userStoryMapper.mapEntityToDto(userStory);
+        UserStoryDto dto = userStoryMapper.mapEntityToDtoWithoutConstraints(userStory);
         return dto;
     }
+
+    public Set<UserStoryDto> getUserStoriesBySprintId(Long id){
+        if(id<1)
+            throw new IllegalArgumentException("id nie może być mniejsze od 1");
+        Optional<Set<UserStory>> optional= sprintRepository.findUserStoriesById(id);
+        if(!optional.isPresent())
+            throw new EmptyResultDataAccessException("Sprint o podanym id nie istnieje lub nie ma przypisanych user stories",0);
+        return userStoryMapper.mapEntityToDtoIgnoreAttachmentsAndDescription(optional.get());
+    }
+
 
 }
