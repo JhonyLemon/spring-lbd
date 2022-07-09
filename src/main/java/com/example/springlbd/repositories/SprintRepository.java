@@ -17,7 +17,7 @@ public interface SprintRepository extends PagingAndSortingRepository<Sprint,Long
 
     Optional<List<Sprint>> findByBeginDateGreaterThanEqualAndEndDateLessThanEqual(LocalDate begin, LocalDate end);
 
-    @Query("SELECT SUM(u.storyPoints) FROM UserStory u INNER JOIN u.sprints s WHERE s.id=?1 AND u.userStoryStatus='Done'")
+    @Query("SELECT SUM(u.storyPoints) FROM UserStory u INNER JOIN u.sprints s WHERE s.id=?1")
     Optional<Long> countStoryPointsBySprintId(Long id);
 
 

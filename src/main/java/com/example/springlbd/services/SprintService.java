@@ -9,6 +9,7 @@ import com.example.springlbd.repositories.SprintRepository;
 import com.example.springlbd.repositories.UserStoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -69,6 +70,8 @@ public class SprintService {
         if(id<1)
             throw new IllegalArgumentException("id nie może być mniejsze od 1");
         Optional<Long> optional= sprintRepository.countStoryPointsBySprintId(id);
+        if(!optional.isPresent())
+            throw new EmptyResultDataAccessException("Sprint o podanym id nie istnieje lub nie ma przypisanych user stories",0);
         return optional.get();
     }
 

@@ -23,5 +23,9 @@ public class SprintController {
     public Set<SprintDto> getSprints(@RequestParam("tasks") Boolean tasks){
          return sprintService.findAllWithOrWithoutUserStories(tasks);
     }
+    @GetMapping("/points")
+    public Long countStoryPointsBySprintId(@RequestParam("id") Long id){
+        return sprintService.countStoryPointsBySprintId(id);
+    }
 
 }
