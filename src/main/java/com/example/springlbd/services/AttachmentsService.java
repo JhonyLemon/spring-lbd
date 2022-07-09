@@ -56,7 +56,9 @@ public class AttachmentsService {
             throw new EmptyResultDataAccessException("Nie znaleziono pliku z podanym przesunięciem",0);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + optionalAttachment.get().getName() + "\"")
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + optionalAttachment.get().getName() + "\"")
                 .body(optionalAttachment.get().getAttachment());
     }
 

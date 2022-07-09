@@ -55,7 +55,7 @@ public class SprintService {
                 .findByBeginDateGreaterThanEqualAndEndDateLessThanEqual(start,stop);
         if(!optional.isPresent())
             throw new EmptyResultDataAccessException("Nie znaleziono sprintów pomiędzy datami("+start+"-"+stop+")",0);
-        return sprintMapper.mapEntityToDtoWithoutConstraints(optional.get());
+        return sprintMapper.mapEntityToDtoIgnoreAllExceptNameDatesStatus(optional.get());
     }
 
     public Long countStoryPointsBySprintId(Long id){

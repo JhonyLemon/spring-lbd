@@ -3,11 +3,13 @@ package com.example.springlbd.mapper;
 import com.example.springlbd.dto.SprintDto;
 import com.example.springlbd.dto.UserStoryDto;
 import com.example.springlbd.entity.Sprint;
+import com.example.springlbd.entity.enums.SprintStatus;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,6 +35,16 @@ public interface SprintMapper {
     @IterableMapping(qualifiedByName = "baseSprintDtoToEntity")
     @Named("baseSprintSetDtoSetToEntity")
     Set<Sprint> mapDtoToEntity(Set<SprintDto> destination);
+
+    @Mapping(target = "id",ignore = true)
+    @Mapping(target = "goalDescription",ignore = true)
+    @Mapping(target = "userStories",ignore = true)
+    @Named("ignoreAllExceptNameDatesStatusSprintToDto")
+    SprintDto mapEntityToDtoIgnoreAllExceptNameDatesStatus(Sprint source);
+    @IterableMapping(qualifiedByName = "ignoreAllExceptNameDatesStatusSprintToDto")
+    @Named("ignoreAllExceptNameDatesStatusSprintSetToDtoSet")
+    Set<SprintDto> mapEntityToDtoIgnoreAllExceptNameDatesStatus(Set<Sprint> source);
+
 
     @Named("SprintSetToDtoSetWithOrWithoutUserStories")
     default Set<SprintDto> mapEntityToDtoWithWithoutUserStories(Boolean tasks, Iterable<Sprint> iterable){

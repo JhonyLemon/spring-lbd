@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-07-09T17:38:31+0200",
+    date = "2022-07-09T22:05:24+0200",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.11 (Oracle Corporation)"
 )
 @Component
@@ -114,6 +114,35 @@ public class SprintMapperImpl implements SprintMapper {
         return set;
     }
 
+    @Override
+    public SprintDto mapEntityToDtoIgnoreAllExceptNameDatesStatus(Sprint source) {
+        if ( source == null ) {
+            return null;
+        }
+
+        SprintDto sprintDto = new SprintDto();
+
+        sprintDto.setName( source.getName() );
+        sprintDto.setBeginDate( source.getBeginDate() );
+        sprintDto.setEndDate( source.getEndDate() );
+
+        return sprintDto;
+    }
+
+    @Override
+    public Set<SprintDto> mapEntityToDtoIgnoreAllExceptNameDatesStatus(Set<Sprint> source) {
+        if ( source == null ) {
+            return null;
+        }
+
+        Set<SprintDto> set = new LinkedHashSet<SprintDto>( Math.max( (int) ( source.size() / .75f ) + 1, 16 ) );
+        for ( Sprint sprint : source ) {
+            set.add( mapEntityToDtoIgnoreAllExceptNameDatesStatus( sprint ) );
+        }
+
+        return set;
+    }
+
     protected Set<UserStoryDto> userStorySetToUserStoryDtoSet(Set<UserStory> set) {
         if ( set == null ) {
             return null;
@@ -183,7 +212,6 @@ public class SprintMapperImpl implements SprintMapper {
         attachmentsDto.setAttachment( byteArrayToByteArray( attachment.getAttachment() ) );
         attachmentsDto.setUserStory( attachment.getUserStory() );
         attachmentsDto.setName( attachment.getName() );
-        attachmentsDto.setType( attachment.getType() );
 
         return attachmentsDto;
     }
@@ -288,7 +316,6 @@ public class SprintMapperImpl implements SprintMapper {
         attachment.setAttachment( byteArrayTobyteArray( attachmentsDto.getAttachment() ) );
         attachment.setUserStory( attachmentsDto.getUserStory() );
         attachment.setName( attachmentsDto.getName() );
-        attachment.setType( attachmentsDto.getType() );
 
         return attachment;
     }

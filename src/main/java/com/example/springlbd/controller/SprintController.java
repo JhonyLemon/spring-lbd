@@ -5,6 +5,7 @@ import com.example.springlbd.entity.enums.SprintStatus;
 import com.example.springlbd.services.SprintService;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @RestController
@@ -34,5 +35,13 @@ public class SprintController {
         sprintService.updateSprintStatus(id,status);
 
     }
+
+    @GetMapping("/between")
+    public Set<SprintDto> getSprintsBetweenDates(
+            @RequestParam("begin_date") LocalDate beginDate,
+            @RequestParam("end_date") LocalDate endDate){
+        return sprintService.getSprintsBetweenDates(beginDate,endDate);
+    }
+
 
 }
