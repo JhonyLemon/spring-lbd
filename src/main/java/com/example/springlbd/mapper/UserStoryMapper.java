@@ -3,10 +3,7 @@ package com.example.springlbd.mapper;
 
 import com.example.springlbd.dto.UserStoryDto;
 import com.example.springlbd.entity.UserStory;
-import org.mapstruct.IterableMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 
 import java.util.List;
 import java.util.Set;
@@ -43,14 +40,25 @@ public interface UserStoryMapper {
     @Named("baseUserStoryDtoSetToEntitySet")
     Set<UserStory> mapDtoSetToEntitySet(Set<UserStoryDto> destination);
 
-    @Mapping(target = "sprints",ignore = true)
+
     @Mapping(target = "description",ignore = true)
-    @Mapping(target = "attachments",ignore = true)
+    @InheritConfiguration(name = "mapEntityToDtoWithoutConstraints")
     @Named("ignoreDescriptionUserStoryToDto")
     UserStoryDto mapEntityToDtoIgnoreAttachmentsAndDescription(UserStory source);
+
     @IterableMapping(qualifiedByName = "ignoreDescriptionUserStoryToDto")
     @Named("ignoreDescriptionUserStorySetToDtoSet")
     Set<UserStoryDto> mapEntityToDtoIgnoreAttachmentsAndDescription(Set<UserStory> source);
+
+    @Mapping(target = "userStoryStatus",ignore = true)
+    @Mapping(target = "id",ignore = true)
+    @InheritConfiguration(name = "mapEntityToDtoIgnoreAttachmentsAndDescription")
+    @Named("ignoreAllExceptNamePointsDescriptionUserStoryToDto")
+    UserStoryDto mapEntityToDtoIgnoreAllExceptNamePoints(UserStory source);
+
+    @IterableMapping(qualifiedByName = "ignoreAllExceptNamePointsDescriptionUserStoryToDto")
+    @Named("ignoreAllExceptNamePointsUserStorySetToDtoSet")
+    Set<UserStoryDto> mapEntityToDtoIgnoreAllExceptNamePoints(Set<UserStory> source);
 
 
 }

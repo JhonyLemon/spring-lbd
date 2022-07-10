@@ -54,7 +54,6 @@ public class AttachmentsService {
         Optional<Attachment> optionalAttachment=attachmentsRepository.findByUserStoryId(idUserStory,(offset==null ? 0 : offset));
         if(!optionalAttachment.isPresent())
             throw new EmptyResultDataAccessException("Nie znaleziono pliku z podanym przesunięciem",0);
-
         return ResponseEntity.ok()
                 .header(
                         HttpHeaders.CONTENT_DISPOSITION,

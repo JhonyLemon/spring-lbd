@@ -75,7 +75,12 @@ public class SprintService {
     }
 
     public Set<SprintDto> findAllWithOrWithoutUserStories(Boolean tasks){
-        return sprintMapper.mapEntityToDtoWithWithoutUserStories(tasks,sprintRepository.findAll());
+        if(tasks){
+            return sprintMapper.mapEntityIterableUserStoryOnlyNamePointsToDtoSet(sprintRepository.findAll());
+        }else{
+            return sprintMapper.mapEntityToDtoWithoutConstraints(sprintRepository.findAll());
+        }
+
     }
 
     @Transactional
@@ -86,6 +91,9 @@ public class SprintService {
         if(!optional.isPresent())
             throw new EmptyResultDataAccessException("Sprint o podanym id nie istnieje",0);
         optional.get().setStatus(status);
+
+        SprintDto sprintDto = sprintMapper.mapEntityToDto(optional.get());
+
     }
 
 

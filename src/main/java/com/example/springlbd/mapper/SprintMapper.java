@@ -3,11 +3,8 @@ package com.example.springlbd.mapper;
 import com.example.springlbd.dto.SprintDto;
 import com.example.springlbd.dto.UserStoryDto;
 import com.example.springlbd.entity.Sprint;
-import com.example.springlbd.entity.enums.SprintStatus;
-import org.mapstruct.IterableMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+
+import org.mapstruct.*;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -18,6 +15,12 @@ import java.util.Set;
 })
 public interface SprintMapper {
     @Named("baseSprintToDto")
+    @Mappings(value = {
+            @Mapping(target = "userStories",
+                    source = "userStories",
+                    qualifiedByName = "baseUserStorySetToDtoSetWithoutConstraints"
+            )
+    })
     SprintDto mapEntityToDto(Sprint source);
     @IterableMapping(qualifiedByName = "baseSprintToDto")
     @Named("baseSprintSetToDtoSet")
@@ -38,50 +41,30 @@ public interface SprintMapper {
 
     @Mapping(target = "id",ignore = true)
     @Mapping(target = "goalDescription",ignore = true)
-    @Mapping(target = "userStories",ignore = true)
+    @InheritConfiguration(name = "mapEntityToDtoWithoutConstraints")
     @Named("ignoreAllExceptNameDatesStatusSprintToDto")
     SprintDto mapEntityToDtoIgnoreAllExceptNameDatesStatus(Sprint source);
     @IterableMapping(qualifiedByName = "ignoreAllExceptNameDatesStatusSprintToDto")
     @Named("ignoreAllExceptNameDatesStatusSprintSetToDtoSet")
     Set<SprintDto> mapEntityToDtoIgnoreAllExceptNameDatesStatus(Set<Sprint> source);
 
+    @Named("EntityUserStoryOnlyNamePointsToDto")
+    @Mappings(value = {
+            @Mapping(target = "userStories",
+                    source = "userStories",
+                    qualifiedByName = "ignoreAllExceptNamePointsUserStorySetToDtoSet"
+            )
+    })
+    SprintDto mapEntityUserStoryOnlyNamePointsToDto(Sprint source);
 
-    @Named("SprintSetToDtoSetWithOrWithoutUserStories")
-    default Set<SprintDto> mapEntityToDtoWithWithoutUserStories(Boolean tasks, Iterable<Sprint> iterable){
-        Set<SprintDto> sprintDtos=new HashSet<>();
-        if(tasks!=null && tasks){
-            iterable.forEach(i -> {
-                SprintDto sprintDto = new SprintDto();
-                sprintDto.setId(i.getId());
-                sprintDto.setName(i.getName());
-                sprintDto.setBeginDate(i.getBeginDate());
-                sprintDto.setEndDate(i.getEndDate());
-                sprintDto.setGoalDescription(i.getGoalDescription());
-                sprintDto.setSprintStatus(i.getStatus());
-                HashSet<UserStoryDto> userStoryDtos= new HashSet<>();
-                i.getUserStories().forEach(j -> {
-                    UserStoryDto userStoryDto = new UserStoryDto();
-                    userStoryDto.setName(j.getName());
-                    userStoryDto.setStoryPoints(j.getStoryPoints());
-                    userStoryDtos.add(userStoryDto);
-                });
-                sprintDto.setUserStories(userStoryDtos);
-                sprintDtos.add(sprintDto);
-            });
-        }else{
-            iterable.forEach(i -> {
-                SprintDto sprintDto = new SprintDto();
-                sprintDto.setId(i.getId());
-                sprintDto.setName(i.getName());
-                sprintDto.setBeginDate(i.getBeginDate());
-                sprintDto.setEndDate(i.getEndDate());
-                sprintDto.setGoalDescription(i.getGoalDescription());
-                sprintDto.setSprintStatus(i.getStatus());
-                sprintDtos.add(sprintDto);
-            });
-        }
-        return sprintDtos;
-    }
+
+    @IterableMapping(qualifiedByName = "EntityUserStoryOnlyNamePointsToDto")
+    @Named("EntityIterableUserStoryOnlyNamePointsToDtoSet")
+    Set<SprintDto> mapEntityIterableUserStoryOnlyNamePointsToDtoSet(Iterable<Sprint> source);
+
+    @IterableMapping(qualifiedByName = "baseSprintToDtoWithoutConstraints")
+    @Named("baseSprintIterableToDtoSetWithoutConstraints")
+    Set<SprintDto> mapEntityToDtoWithoutConstraints(Iterable<Sprint> source);
 
 
 }

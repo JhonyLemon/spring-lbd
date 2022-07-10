@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-07-10T08:34:07+0200",
+    date = "2022-07-10T11:04:09+0200",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.11 (Oracle Corporation)"
 )
 @Component
@@ -159,6 +159,34 @@ public class UserStoryMapperImpl implements UserStoryMapper {
         Set<UserStoryDto> set = new LinkedHashSet<UserStoryDto>( Math.max( (int) ( source.size() / .75f ) + 1, 16 ) );
         for ( UserStory userStory : source ) {
             set.add( mapEntityToDtoIgnoreAttachmentsAndDescription( userStory ) );
+        }
+
+        return set;
+    }
+
+    @Override
+    public UserStoryDto mapEntityToDtoIgnoreAllExceptNamePoints(UserStory source) {
+        if ( source == null ) {
+            return null;
+        }
+
+        UserStoryDto userStoryDto = new UserStoryDto();
+
+        userStoryDto.setName( source.getName() );
+        userStoryDto.setStoryPoints( source.getStoryPoints() );
+
+        return userStoryDto;
+    }
+
+    @Override
+    public Set<UserStoryDto> mapEntityToDtoIgnoreAllExceptNamePoints(Set<UserStory> source) {
+        if ( source == null ) {
+            return null;
+        }
+
+        Set<UserStoryDto> set = new LinkedHashSet<UserStoryDto>( Math.max( (int) ( source.size() / .75f ) + 1, 16 ) );
+        for ( UserStory userStory : source ) {
+            set.add( mapEntityToDtoIgnoreAllExceptNamePoints( userStory ) );
         }
 
         return set;

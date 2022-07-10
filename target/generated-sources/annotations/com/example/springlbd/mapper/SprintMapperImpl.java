@@ -9,15 +9,19 @@ import com.example.springlbd.entity.UserStory;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.annotation.Generated;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-07-10T08:34:07+0200",
+    date = "2022-07-10T11:03:36+0200",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.11 (Oracle Corporation)"
 )
 @Component
 public class SprintMapperImpl implements SprintMapper {
+
+    @Autowired
+    private UserStoryMapper userStoryMapper;
 
     @Override
     public SprintDto mapEntityToDto(Sprint source) {
@@ -27,12 +31,12 @@ public class SprintMapperImpl implements SprintMapper {
 
         SprintDto sprintDto = new SprintDto();
 
+        sprintDto.setUserStories( userStoryMapper.mapUserStorySetToDtoSetWithoutConstraints( source.getUserStories() ) );
         sprintDto.setId( source.getId() );
         sprintDto.setName( source.getName() );
         sprintDto.setBeginDate( source.getBeginDate() );
         sprintDto.setEndDate( source.getEndDate() );
         sprintDto.setGoalDescription( source.getGoalDescription() );
-        sprintDto.setUserStories( userStorySetToUserStoryDtoSet( source.getUserStories() ) );
 
         return sprintDto;
     }
@@ -143,108 +147,50 @@ public class SprintMapperImpl implements SprintMapper {
         return set;
     }
 
-    protected Set<UserStoryDto> userStorySetToUserStoryDtoSet(Set<UserStory> set) {
-        if ( set == null ) {
-            return null;
-        }
-
-        Set<UserStoryDto> set1 = new LinkedHashSet<UserStoryDto>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
-        for ( UserStory userStory : set ) {
-            set1.add( userStoryToUserStoryDto( userStory ) );
-        }
-
-        return set1;
-    }
-
-    protected SprintDto sprintToSprintDto(Sprint sprint) {
-        if ( sprint == null ) {
+    @Override
+    public SprintDto mapEntityUserStoryOnlyNamePointsToDto(Sprint source) {
+        if ( source == null ) {
             return null;
         }
 
         SprintDto sprintDto = new SprintDto();
 
-        sprintDto.setId( sprint.getId() );
-        sprintDto.setName( sprint.getName() );
-        sprintDto.setBeginDate( sprint.getBeginDate() );
-        sprintDto.setEndDate( sprint.getEndDate() );
-        sprintDto.setGoalDescription( sprint.getGoalDescription() );
-        sprintDto.setUserStories( userStorySetToUserStoryDtoSet( sprint.getUserStories() ) );
+        sprintDto.setUserStories( userStoryMapper.mapEntityToDtoIgnoreAllExceptNamePoints( source.getUserStories() ) );
+        sprintDto.setId( source.getId() );
+        sprintDto.setName( source.getName() );
+        sprintDto.setBeginDate( source.getBeginDate() );
+        sprintDto.setEndDate( source.getEndDate() );
+        sprintDto.setGoalDescription( source.getGoalDescription() );
 
         return sprintDto;
     }
 
-    protected Set<SprintDto> sprintSetToSprintDtoSet(Set<Sprint> set) {
-        if ( set == null ) {
+    @Override
+    public Set<SprintDto> mapEntityIterableUserStoryOnlyNamePointsToDtoSet(Iterable<Sprint> source) {
+        if ( source == null ) {
             return null;
         }
 
-        Set<SprintDto> set1 = new LinkedHashSet<SprintDto>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
-        for ( Sprint sprint : set ) {
-            set1.add( sprintToSprintDto( sprint ) );
+        Set<SprintDto> set = new LinkedHashSet<SprintDto>();
+        for ( Sprint sprint : source ) {
+            set.add( mapEntityUserStoryOnlyNamePointsToDto( sprint ) );
         }
 
-        return set1;
+        return set;
     }
 
-    protected Byte[] byteArrayToByteArray(byte[] byteArray) {
-        if ( byteArray == null ) {
+    @Override
+    public Set<SprintDto> mapEntityToDtoWithoutConstraints(Iterable<Sprint> source) {
+        if ( source == null ) {
             return null;
         }
 
-        Byte[] byteTmp = new Byte[byteArray.length];
-        int i = 0;
-        for ( byte byte1 : byteArray ) {
-            byteTmp[i] = byte1;
-            i++;
+        Set<SprintDto> set = new LinkedHashSet<SprintDto>();
+        for ( Sprint sprint : source ) {
+            set.add( mapEntityToDtoWithoutConstraints( sprint ) );
         }
 
-        return byteTmp;
-    }
-
-    protected AttachmentsDto attachmentToAttachmentsDto(Attachment attachment) {
-        if ( attachment == null ) {
-            return null;
-        }
-
-        AttachmentsDto attachmentsDto = new AttachmentsDto();
-
-        attachmentsDto.setId( attachment.getId() );
-        attachmentsDto.setAttachment( byteArrayToByteArray( attachment.getAttachment() ) );
-        attachmentsDto.setUserStory( attachment.getUserStory() );
-        attachmentsDto.setName( attachment.getName() );
-
-        return attachmentsDto;
-    }
-
-    protected Set<AttachmentsDto> attachmentSetToAttachmentsDtoSet(Set<Attachment> set) {
-        if ( set == null ) {
-            return null;
-        }
-
-        Set<AttachmentsDto> set1 = new LinkedHashSet<AttachmentsDto>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
-        for ( Attachment attachment : set ) {
-            set1.add( attachmentToAttachmentsDto( attachment ) );
-        }
-
-        return set1;
-    }
-
-    protected UserStoryDto userStoryToUserStoryDto(UserStory userStory) {
-        if ( userStory == null ) {
-            return null;
-        }
-
-        UserStoryDto userStoryDto = new UserStoryDto();
-
-        userStoryDto.setId( userStory.getId() );
-        userStoryDto.setName( userStory.getName() );
-        userStoryDto.setDescription( userStory.getDescription() );
-        userStoryDto.setStoryPoints( userStory.getStoryPoints() );
-        userStoryDto.setUserStoryStatus( userStory.getUserStoryStatus() );
-        userStoryDto.setSprints( sprintSetToSprintDtoSet( userStory.getSprints() ) );
-        userStoryDto.setAttachments( attachmentSetToAttachmentsDtoSet( userStory.getAttachments() ) );
-
-        return userStoryDto;
+        return set;
     }
 
     protected Set<UserStory> userStoryDtoSetToUserStorySet(Set<UserStoryDto> set) {
