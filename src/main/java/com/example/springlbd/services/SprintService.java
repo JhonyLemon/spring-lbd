@@ -76,7 +76,7 @@ public class SprintService {
 
     public Set<SprintDto> findAllWithOrWithoutUserStories(Boolean tasks){
         if(tasks){
-            return sprintMapper.mapEntityIterableUserStoryOnlyNamePointsToDtoSet(sprintRepository.findAll());
+            return sprintMapper.mapEntityIterableUserStoryOnlyNamePointsToDtoSet(sprintRepository.findAllFetchUserStories());
         }else{
             return sprintMapper.mapEntityToDtoWithoutConstraints(sprintRepository.findAll());
         }

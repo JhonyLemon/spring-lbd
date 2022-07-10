@@ -5,10 +5,13 @@ import com.example.springlbd.entity.Sprint;
 import com.example.springlbd.entity.enums.SprintStatus;
 import com.example.springlbd.entity.UserStory;
 import com.example.springlbd.entity.enums.UserStoryStatus;
+import com.example.springlbd.repositories.SprintRepository;
+import com.example.springlbd.repositories.UserStoryRepository;
 import com.example.springlbd.services.SprintService;
 import com.example.springlbd.services.UserStoryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
@@ -17,6 +20,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@DependsOnDatabaseInitialization
 public class SpringLbdSprintServiceTests {
 
     @Autowired
@@ -24,6 +28,12 @@ public class SpringLbdSprintServiceTests {
 
     @Autowired
     UserStoryService userStoryService;
+
+    @Autowired
+    UserStoryRepository userStoryRepository;
+
+    @Autowired
+    SprintRepository sprintRepository;
 
     @Test
     void whenSavingNewSprint_thenSuccess(){
@@ -215,7 +225,76 @@ public class SpringLbdSprintServiceTests {
         assertNotNull(s);
     }
 
+    @Test
+    void whenFindAllWithOrWithoutUserStories(){
 
+        final Sprint sprint = new Sprint(
+                2L,
+                "sprint1",
+                LocalDate.of(2000,1,1),
+                LocalDate.of(2001,1,1),
+                "opis",
+                SprintStatus.In_progress,
+                new HashSet<>(Arrays.asList(
+                        new UserStory(
+                                "name",
+                                "gfjsdsf",
+                                null,
+                                30L,
+                                UserStoryStatus.Done,
+                                null
+                        ),
+                        new UserStory(
+                                "name",
+                                "gfjsdsf",
+                                null,
+                                30L,
+                                UserStoryStatus.Done,
+                                null
+                        ),
+                        new UserStory(
+                                "name",
+                                "gfjsdsf",
+                                null,
+                                30L,
+                                UserStoryStatus.Done,
+                                null
+                        ),
+                        new UserStory(
+                                "name",
+                                "gfjsdsf",
+                                null,
+                                30L,
+                                UserStoryStatus.In_progress,
+                                null
+                        ),
+                        new UserStory(
+                                "name",
+                                "gfjsdsf",
+                                null,
+                                30L,
+                                UserStoryStatus.Review,
+                                null
+                        )
+                ))
+        );
+
+        userStoryRepository.saveAll(sprint.getUserStories());
+        sprintRepository.save(sprint);
+
+        Set<SprintDto> sprintDtos=sprintService.findAllWithOrWithoutUserStories(false);
+
+        assert (sprintDtos.stream().allMatch(x -> x.getUserStories()==null));
+
+        sprintDtos=sprintService.findAllWithOrWithoutUserStories(true);
+
+        Optional<SprintDto> sprintDto=sprintDtos.stream().filter(x-> x.getName()=="sprint1").findFirst();
+
+        assert sprintDto.isPresent();
+
+        assert sprintDto.get().getUserStories().size()==sprint.getUserStories().size();
+
+    }
 
 
 

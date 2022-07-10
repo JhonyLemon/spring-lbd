@@ -21,4 +21,7 @@ public interface SprintRepository extends PagingAndSortingRepository<Sprint,Long
     Optional<Long> countStoryPointsBySprintId(Long id);
 
 
+    @Query("select S FROM Sprint S join fetch S.userStories")
+    Iterable<Sprint> findAllFetchUserStories();
+
 }
