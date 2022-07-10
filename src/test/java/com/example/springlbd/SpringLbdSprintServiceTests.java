@@ -17,7 +17,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class SpringLbdSprintServiceTestsDto {
+public class SpringLbdSprintServiceTests {
 
     @Autowired
     SprintService sprintService;
@@ -214,6 +214,9 @@ public class SpringLbdSprintServiceTestsDto {
         Sprint s=sprintService.saveSprintAndUserStories(sprint,sprint.getUserStories());
         assertNotNull(s);
     }
+
+
+
 
 
 }

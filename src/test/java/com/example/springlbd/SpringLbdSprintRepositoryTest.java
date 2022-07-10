@@ -15,7 +15,7 @@ import java.util.Random;
 import java.util.UUID;
 
 @SpringBootTest
-public class SpringLbdSprintRepositoryTestDto {
+public class SpringLbdSprintRepositoryTest {
 
     @Autowired
     SprintRepository sprintRepository;

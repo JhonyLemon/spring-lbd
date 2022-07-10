@@ -5,16 +5,16 @@ import com.example.springlbd.entity.Sprint;
 import com.example.springlbd.entity.enums.SprintStatus;
 import com.example.springlbd.entity.enums.UserStoryStatus;
 import com.example.springlbd.entity.UserStory;
+import com.example.springlbd.mapper.UserStoryMapper;
 import com.example.springlbd.repositories.SprintRepository;
+import com.example.springlbd.repositories.UserStoryRepository;
 import com.example.springlbd.services.UserStoryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -27,6 +27,12 @@ public class SpringLbdUserStoryServiceTests {
 
     @Autowired
     SprintRepository sprintRepository;
+
+    @Autowired
+    UserStoryRepository userStoryRepository;
+
+    @Autowired
+    UserStoryMapper userStoryMapper;
 
     @Test
     void whenSavingNewUserStory_thenSuccess(){
@@ -121,6 +127,59 @@ public class SpringLbdUserStoryServiceTests {
                                 .allMatch( a -> sprint.getUserStories().stream()
                                         .anyMatch(b -> a.getId().equals(b.getId())))
         );
+    }
+
+    @Test
+    void whenGetSortedByNamePage() {
+
+        List<UserStory> userStories = new ArrayList<>(Arrays.asList(
+                new UserStory(
+                        "1",
+                        "gfjsdsf",
+                        null,
+                        30L,
+                        UserStoryStatus.In_progress,
+                        null
+                ),
+                new UserStory(
+                        "2",
+                        "gfjsdsf",
+                        null,
+                        30L,
+                        UserStoryStatus.In_progress,
+                        null
+                ),
+                new UserStory(
+                        "3",
+                        "gfjsdsf",
+                        null,
+                        30L,
+                        UserStoryStatus.In_progress,
+                        null
+                ),
+                new UserStory(
+                        "4",
+                        "gfjsdsf",
+                        null,
+                        30L,
+                        UserStoryStatus.In_progress,
+                        null
+                ),
+                new UserStory(
+                        "5",
+                        "gfjsdsf",
+                        null,
+                        30L,
+                        UserStoryStatus.In_progress,
+                        null
+                )
+        ));
+
+            userStoryRepository.saveAll(userStories);
+        List<UserStoryDto> userStoryDtos =userStoryService.getSortedByNamePage(2,0);
+        UserStoryDto userStoryDtos1 =userStoryService.getSortedByNamePage(1,0).get(0);
+        UserStoryDto userStoryDtos2 =userStoryService.getSortedByNamePage(1,1).get(0);
+        assert (userStoryDtos.get(0).getId().equals(userStoryDtos1.getId()) && userStoryDtos.get(1).getId().equals(userStoryDtos2.getId()));
     }
 
 }
