@@ -158,7 +158,7 @@ public class SpringLbdSprintServiceTests {
 
         for (UserStory u :
                 sprint.getUserStories()) {
-            userStoryService.saveUserStory(u);
+            userStoryRepository.save(u);
         }
         sprintService.saveSprint(sprint);
 

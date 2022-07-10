@@ -4,9 +4,11 @@ import com.example.springlbd.dto.SprintDto;
 import com.example.springlbd.entity.Sprint;
 import com.example.springlbd.entity.UserStory;
 import com.example.springlbd.entity.enums.SprintStatus;
+import com.example.springlbd.events.UserStoryCreatedEvent;
 import com.example.springlbd.mapper.SprintMapper;
 import com.example.springlbd.repositories.SprintRepository;
 import com.example.springlbd.repositories.UserStoryRepository;
+import org.springframework.context.event.EventListener;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -91,9 +93,17 @@ public class SprintService {
         if(!optional.isPresent())
             throw new EmptyResultDataAccessException("Sprint o podanym id nie istnieje",0);
         optional.get().setStatus(status);
+    }
 
-
-
+    @EventListener
+    public void handleUserStoryCreatedEvent(UserStoryCreatedEvent userStoryCreatedEvent){
+        Optional<Sprint> optionalSprint=sprintRepository.findRecentWithPendingStatus();
+        if(!optionalSprint.isPresent())
+            throw new EmptyResultDataAccessException("Sprint nie istnieje",0);
+        Optional<UserStory> optionalUserStory=userStoryRepository.findById(userStoryCreatedEvent.getId());
+        if(!optionalSprint.isPresent())
+            throw new EmptyResultDataAccessException("User story o podanym id nie istnieje",0);
+        optionalSprint.get().getUserStories().add(optionalUserStory.get());
     }
 
 

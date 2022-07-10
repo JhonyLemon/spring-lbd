@@ -24,4 +24,8 @@ public interface SprintRepository extends PagingAndSortingRepository<Sprint,Long
     @Query("select S FROM Sprint S join fetch S.userStories")
     Iterable<Sprint> findAllFetchUserStories();
 
+    @Query("SELECT S FROM Sprint S WHERE S.sprintStatus='Pending' ORDER BY S.beginDate DESC")
+    Optional<Sprint> findRecentWithPendingStatus();
+
+
 }

@@ -4,9 +4,11 @@ import com.example.springlbd.dto.UserStoryDto;
 import com.example.springlbd.entity.Sprint;
 import com.example.springlbd.entity.enums.UserStoryStatus;
 import com.example.springlbd.entity.UserStory;
+import com.example.springlbd.events.UserStoryCreatedEvent;
 import com.example.springlbd.mapper.UserStoryMapper;
 import com.example.springlbd.repositories.SprintRepository;
 import com.example.springlbd.repositories.UserStoryRepository;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,22 +26,29 @@ public class UserStoryService {
 
     private UserStoryMapper userStoryMapper;
 
-    public UserStoryService(UserStoryRepository userStoryRepository, UserStoryMapper userStoryMapper,SprintRepository sprintRepository) {
+    private ApplicationEventPublisher applicationEventPublisher;
+
+    public UserStoryService(UserStoryRepository userStoryRepository,
+                            UserStoryMapper userStoryMapper,
+                            SprintRepository sprintRepository,
+                            ApplicationEventPublisher applicationEventPublisher) {
         this.userStoryRepository = userStoryRepository;
         this.userStoryMapper =userStoryMapper;
         this.sprintRepository =sprintRepository;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Transactional
-    public UserStory saveUserStory(UserStory userStory){
-        if(userStory.getName()==null)
+    public UserStoryDto saveUserStory(UserStoryDto userStoryDto){
+        if(userStoryDto.getName()==null)
             throw new IllegalArgumentException("Pole nazwy user story nie może być puste");
-        if(userStory.getDescription()==null)
+        if(userStoryDto.getDescription()==null)
             throw new IllegalArgumentException("Pole opisu user story nie może być puste");
-        if(userStory.getUserStoryStatus()==null)
-            userStory.setUserStoryStatus(UserStoryStatus.To_do);
-
-        return userStoryRepository.save(userStory);
+        if(userStoryDto.getUserStoryStatus()==null)
+            userStoryDto.setUserStoryStatus(UserStoryStatus.To_do);
+        UserStory userStory=userStoryRepository.save(userStoryMapper.mapDtoToEntity(userStoryDto));
+        applicationEventPublisher.publishEvent(new UserStoryCreatedEvent(userStory.getId()));
+        return userStoryMapper.mapEntityToDtoWithoutConstraints(userStory);
     }
 
     @Transactional
@@ -92,5 +101,8 @@ public class UserStoryService {
         Page<UserStory> userStoryPage = userStoryRepository.findAll(PageRequest.of(pageNumber,pageSize, Sort.by("name").ascending()));
         return userStoryMapper.mapUserStoryListToDtoListWithoutConstraints(userStoryPage.getContent());
     }
+
+
+
 
 }

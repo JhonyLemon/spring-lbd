@@ -21,6 +21,11 @@ public class UserStoryController {
         return userStoryService.addUserStoryToSprint(id,userStoryDto);
     }
 
+    @PostMapping(value = "/save")
+    public void saveUserStory(@RequestBody UserStoryDto userStoryDto){
+        userStoryService.saveUserStory(userStoryDto);
+    }
+
     @GetMapping("/BySprintId")
     public Set<UserStoryDto> getUserStoriesBySprintId(@RequestParam("id") Long id){
         return userStoryService.getUserStoriesBySprintId(id);

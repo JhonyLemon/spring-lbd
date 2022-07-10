@@ -31,6 +31,15 @@ public class UserStoryDto {
         this.sprints = sprints;
     }
 
+    public UserStoryDto(String name, String description, Long storyPoints, UserStoryStatus userStoryStatus, Set<AttachmentsDto> attachments, Set<SprintDto> sprints) {
+        this.name = name;
+        this.description = description;
+        this.storyPoints = storyPoints;
+        this.userStoryStatus = userStoryStatus;
+        this.attachments = attachments;
+        this.sprints = sprints;
+    }
+
     public UserStoryDto() {
     }
 

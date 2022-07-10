@@ -36,12 +36,12 @@ public class SpringLbdUserStoryServiceTests {
 
     @Test
     void whenSavingNewUserStory_thenSuccess(){
-        UserStory story = new UserStory(
+        UserStoryDto story = new UserStoryDto(
                 "name",
                 "gfjsdsf",
-                null,
                 30L,
                 UserStoryStatus.In_progress,
+                null,
                 null
         );
         assertNotNull(userStoryService.saveUserStory(story));
@@ -49,12 +49,12 @@ public class SpringLbdUserStoryServiceTests {
 
     @Test
     void whenSavingNewUserStory_thenFailure(){
-        UserStory story = new UserStory(
+        UserStoryDto story = new UserStoryDto(
                 "name",
-                null,
                 null,
                 30L,
                 UserStoryStatus.In_progress,
+                null,
                 null
         );
         assertThrows(IllegalArgumentException.class,() -> userStoryService.saveUserStory(story));
@@ -115,7 +115,7 @@ public class SpringLbdUserStoryServiceTests {
 
         for (UserStory u :
                 sprint.getUserStories()) {
-            userStoryService.saveUserStory(u);
+            userStoryRepository.save(u);
         }
         sprintRepository.save(sprint);
 
