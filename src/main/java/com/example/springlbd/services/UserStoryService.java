@@ -81,14 +81,10 @@ public class UserStoryService {
     public void deleteUserStoryById(Long id){
         if(id<1)
             throw new IllegalArgumentException("id nie może być mniejsze od 1");
-
         Optional<UserStory> optionalUserStory= userStoryRepository.findById(id);
         if(!optionalUserStory.isPresent())
             throw new EmptyResultDataAccessException("User story o podanym id nie istnieje",0);
-        Optional<Set<Sprint>> optionalSprintSet= userStoryRepository.getSprintsWithUserStoryOfId(id);
-        if(optionalSprintSet.isPresent()){
-            optionalSprintSet.get().forEach(x -> x.getUserStories().remove(optionalUserStory.get()));
-        }
+        optionalUserStory.get().getSprints().forEach(x -> x.getUserStories().remove(optionalUserStory.get()));
         userStoryRepository.delete(optionalUserStory.get());
     }
 

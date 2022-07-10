@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-07-09T17:39:00+0200",
+    date = "2022-07-10T08:34:06+0200",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.11 (Oracle Corporation)"
 )
 @Component
@@ -27,7 +27,6 @@ public class AttachmentsMapperImpl implements AttachmentsMapper {
         attachmentsDto.setAttachment( byteArrayToByteArray( source.getAttachment() ) );
         attachmentsDto.setUserStory( source.getUserStory() );
         attachmentsDto.setName( source.getName() );
-        attachmentsDto.setType( source.getType() );
 
         return attachmentsDto;
     }
@@ -44,7 +43,6 @@ public class AttachmentsMapperImpl implements AttachmentsMapper {
         attachment.setAttachment( byteArrayTobyteArray( destination.getAttachment() ) );
         attachment.setUserStory( destination.getUserStory() );
         attachment.setName( destination.getName() );
-        attachment.setType( destination.getType() );
 
         return attachment;
     }

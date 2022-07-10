@@ -25,7 +25,7 @@ public class Sprint {
     @Column(name = "STATUS")
     @Enumerated(EnumType.STRING)
     private SprintStatus sprintStatus;
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.DETACH})
     @JoinTable(
             name = "USER_STORY_SPRINT",
             joinColumns = {

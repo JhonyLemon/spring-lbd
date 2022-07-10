@@ -13,7 +13,4 @@ public interface UserStoryRepository extends PagingAndSortingRepository<UserStor
     @Query("SELECT u.description FROM UserStory u WHERE u.id=?1")
     Optional<String> findUserStoryDescriptionById(Long id);
 
-    @Query("SELECT S FROM Sprint S INNER JOIN S.userStories U WHERE U.id=?1")
-    Optional<Set<Sprint>> getSprintsWithUserStoryOfId(Long id);
-
 }
