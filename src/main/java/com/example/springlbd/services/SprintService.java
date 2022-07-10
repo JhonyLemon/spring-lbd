@@ -92,7 +92,7 @@ public class SprintService {
             throw new EmptyResultDataAccessException("Sprint o podanym id nie istnieje",0);
         optional.get().setStatus(status);
 
-        SprintDto sprintDto = sprintMapper.mapEntityToDto(optional.get());
+
 
     }
 

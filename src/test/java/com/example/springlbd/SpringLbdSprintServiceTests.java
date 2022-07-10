@@ -296,6 +296,22 @@ public class SpringLbdSprintServiceTests {
 
     }
 
+    @Test
+    void whenUpdateSprintStatus(){
+        Sprint sprint = new Sprint(
+                "sprint1",
+                LocalDate.of(2000,1,1),
+                LocalDate.of(2001,1,1),
+                "opis",
+                SprintStatus.In_progress,
+                null
+        );
+        sprint=sprintRepository.save(sprint);
+        sprintService.updateSprintStatus(sprint.getId(),SprintStatus.Canceled);
+
+        assert sprintRepository.findById(sprint.getId()).get().getStatus()==SprintStatus.Canceled;
+    }
+
 
 
 }
