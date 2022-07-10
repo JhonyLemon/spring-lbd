@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.io.IOException;
@@ -64,5 +65,18 @@ public class ControllersAdvice {
                 ),
                 HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(HttpClientErrorException.class)
+    protected ResponseEntity<Error> handleMissingServletRequestParameter(
+            HttpClientErrorException ex) {
+        return new ResponseEntity<>(
+                new Error(
+                        "Http client error",
+                        ex.getMessage()
+                ),
+                HttpStatus.BAD_REQUEST);
+    }
+
+
 
 }
