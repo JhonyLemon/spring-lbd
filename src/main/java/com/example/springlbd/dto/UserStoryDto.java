@@ -89,4 +89,17 @@ public class UserStoryDto {
     public void setAttachments(Set<AttachmentsDto> attachments) {
         this.attachments = attachments;
     }
+
+    @Override
+    public String toString() {
+        return "UserStoryDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", storyPoints=" + storyPoints +
+                ", userStoryStatus=" + userStoryStatus +
+                ", attachments=" + attachments +
+                ", sprints=" + sprints +
+                '}';
+    }
 }

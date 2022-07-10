@@ -84,4 +84,17 @@ public class SprintDto {
     public void setUserStories(Set<UserStoryDto> userStories) {
         this.userStories = userStories;
     }
+
+    @Override
+    public String toString() {
+        return "SprintDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", beginDate=" + beginDate +
+                ", endDate=" + endDate +
+                ", goalDescription='" + goalDescription + '\'' +
+                ", sprintStatus=" + sprintStatus +
+                ", userStories=" + userStories +
+                '}';
+    }
 }

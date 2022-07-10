@@ -2,6 +2,8 @@ package com.example.springlbd.dto;
 
 import com.example.springlbd.entity.UserStory;
 
+import java.util.Arrays;
+
 public class AttachmentsDto {
 
     private Long id;
@@ -50,5 +52,15 @@ public class AttachmentsDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "AttachmentsDto{" +
+                "id=" + id +
+                ", attachment=" + Arrays.toString(attachment) +
+                ", name='" + name + '\'' +
+                ", userStory=" + userStory +
+                '}';
     }
 }
