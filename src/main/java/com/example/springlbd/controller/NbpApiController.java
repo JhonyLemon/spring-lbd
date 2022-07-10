@@ -1,5 +1,6 @@
 package com.example.springlbd.controller;
 
+import com.example.springlbd.services.NbpApiService;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,24 +14,20 @@ import java.time.LocalDate;
 @RequestMapping("/nbp")
 public class NbpApiController {
 
-    private static final String RESOURCE_URL = "http://api.nbp.pl/api";
-    private RestTemplate restTemplate;
+    private NbpApiService nbpApiService;
 
-    public NbpApiController(RestTemplateBuilder builder) {
-        this.restTemplate = builder.build();
+    public NbpApiController(NbpApiService nbpApiService) {
+        this.nbpApiService = nbpApiService;
     }
 
     @GetMapping("/yesterday")
     public ResponseEntity<String> getYesterdayCurrenciesRates(){
-        LocalDate date = LocalDate.now().minusDays(1);
-        ResponseEntity<String> response = restTemplate.getForEntity(RESOURCE_URL+"/exchangerates/tables/a/"+date.toString() +"?format=json", String.class);
-        return response;
+        return nbpApiService.getYesterdayCurrenciesRates();
     }
 
     @GetMapping("/usd/10")
     public ResponseEntity<String> getLast10DaysUsdRates(){
-        ResponseEntity<String> response = restTemplate.getForEntity(RESOURCE_URL+"/exchangerates/rates/a/usd/last/10/?format=json", String.class);
-        return response;
+        return nbpApiService.getLast10DaysUsdRates();
     }
 
 }
