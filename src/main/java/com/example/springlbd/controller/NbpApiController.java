@@ -27,4 +27,10 @@ public class NbpApiController {
         return response;
     }
 
+    @GetMapping("/usd/10")
+    public ResponseEntity<String> getLast10DaysUsdRates(){
+        ResponseEntity<String> response = restTemplate.getForEntity(RESOURCE_URL+"/exchangerates/rates/a/usd/last/10/?format=json", String.class);
+        return response;
+    }
+
 }
