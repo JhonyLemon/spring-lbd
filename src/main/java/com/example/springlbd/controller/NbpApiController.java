@@ -1,6 +1,7 @@
 package com.example.springlbd.controller;
 
 import com.example.springlbd.services.NbpApiService;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,13 +13,10 @@ import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/nbp")
+@AllArgsConstructor
 public class NbpApiController {
 
-    private NbpApiService nbpApiService;
-
-    public NbpApiController(NbpApiService nbpApiService) {
-        this.nbpApiService = nbpApiService;
-    }
+    private final NbpApiService nbpApiService;
 
     @GetMapping("/yesterday")
     public ResponseEntity<String> getYesterdayCurrenciesRates(){

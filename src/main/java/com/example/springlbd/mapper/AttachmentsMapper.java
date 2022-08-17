@@ -2,13 +2,15 @@ package com.example.springlbd.mapper;
 
 import com.example.springlbd.dto.AttachmentsDto;
 import com.example.springlbd.entity.Attachment;
-import org.mapstruct.IterableMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 
 import java.util.Set;
 
-@Mapper(componentModel = "spring")
+@Mapper(
+        componentModel = "spring",
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
+)
 public interface AttachmentsMapper {
 
     @Named("baseEntityToDto")

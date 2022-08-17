@@ -1,70 +1,66 @@
 package com.example.springlbd.mapper;
 
+import com.example.springlbd.dto.AttachmentsDto;
 import com.example.springlbd.dto.SprintDto;
 import com.example.springlbd.dto.UserStoryDto;
+import com.example.springlbd.entity.Attachment;
 import com.example.springlbd.entity.Sprint;
 import com.example.springlbd.entity.UserStory;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.Generated;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-07-10T14:22:40+0200",
+    date = "2022-08-17T16:27:49+0200",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.11 (Oracle Corporation)"
 )
 @Component
 public class UserStoryMapperImpl implements UserStoryMapper {
 
-    @Autowired
-    private AttachmentsMapper attachmentsMapper;
-
     @Override
-    public UserStoryDto mapEntityToDto(UserStory source) {
+    public UserStoryDto UserStoryToUserStoryDto(UserStory source) {
         if ( source == null ) {
             return null;
         }
 
         UserStoryDto userStoryDto = new UserStoryDto();
 
-        userStoryDto.setId( source.getId() );
         userStoryDto.setName( source.getName() );
         userStoryDto.setDescription( source.getDescription() );
         userStoryDto.setStoryPoints( source.getStoryPoints() );
         userStoryDto.setUserStoryStatus( source.getUserStoryStatus() );
-        userStoryDto.setSprints( sprintSetToSprintDtoSet( source.getSprints() ) );
-        userStoryDto.setAttachments( attachmentsMapper.mapEntityToDto( source.getAttachments() ) );
+        userStoryDto.setAttachments( attachmentListToAttachmentsDtoList( source.getAttachments() ) );
+        userStoryDto.setSprints( sprintListToSprintDtoList( source.getSprints() ) );
 
         return userStoryDto;
     }
 
     @Override
-    public Set<UserStoryDto> mapEntitySetToDtoSet(Set<UserStory> source) {
+    public Set<UserStoryDto> UserStorySetToUserStoryDtoSet(Set<UserStory> source) {
         if ( source == null ) {
             return null;
         }
 
         Set<UserStoryDto> set = new LinkedHashSet<UserStoryDto>( Math.max( (int) ( source.size() / .75f ) + 1, 16 ) );
         for ( UserStory userStory : source ) {
-            set.add( mapEntityToDto( userStory ) );
+            set.add( UserStoryToUserStoryDto( userStory ) );
         }
 
         return set;
     }
 
     @Override
-    public UserStoryDto mapEntityToDtoWithoutConstraints(UserStory source) {
+    public UserStoryDto UserStoryToUserStoryDtoWithoutConstraints(UserStory source) {
         if ( source == null ) {
             return null;
         }
 
         UserStoryDto userStoryDto = new UserStoryDto();
 
-        userStoryDto.setId( source.getId() );
         userStoryDto.setName( source.getName() );
         userStoryDto.setDescription( source.getDescription() );
         userStoryDto.setStoryPoints( source.getStoryPoints() );
@@ -74,75 +70,73 @@ public class UserStoryMapperImpl implements UserStoryMapper {
     }
 
     @Override
-    public Set<UserStoryDto> mapUserStorySetToDtoSetWithoutConstraints(Set<UserStory> source) {
+    public Set<UserStoryDto> UserStorySetToUserStoryDtoSetWithoutConstraints(Set<UserStory> source) {
         if ( source == null ) {
             return null;
         }
 
         Set<UserStoryDto> set = new LinkedHashSet<UserStoryDto>( Math.max( (int) ( source.size() / .75f ) + 1, 16 ) );
         for ( UserStory userStory : source ) {
-            set.add( mapEntityToDtoWithoutConstraints( userStory ) );
+            set.add( UserStoryToUserStoryDtoWithoutConstraints( userStory ) );
         }
 
         return set;
     }
 
     @Override
-    public List<UserStoryDto> mapUserStoryListToDtoListWithoutConstraints(List<UserStory> source) {
+    public List<UserStoryDto> UserStoryListToUserStoryDtoListWithoutConstraints(List<UserStory> source) {
         if ( source == null ) {
             return null;
         }
 
         List<UserStoryDto> list = new ArrayList<UserStoryDto>( source.size() );
         for ( UserStory userStory : source ) {
-            list.add( mapEntityToDtoWithoutConstraints( userStory ) );
+            list.add( UserStoryToUserStoryDtoWithoutConstraints( userStory ) );
         }
 
         return list;
     }
 
     @Override
-    public UserStory mapDtoToEntity(UserStoryDto destination) {
+    public UserStory UserStoryDtoToUserStory(UserStoryDto destination) {
         if ( destination == null ) {
             return null;
         }
 
-        UserStory userStory = new UserStory();
+        UserStory.UserStoryBuilder userStory = UserStory.builder();
 
-        userStory.setId( destination.getId() );
-        userStory.setName( destination.getName() );
-        userStory.setDescription( destination.getDescription() );
-        userStory.setStoryPoints( destination.getStoryPoints() );
-        userStory.setSprints( sprintDtoSetToSprintSet( destination.getSprints() ) );
-        userStory.setAttachments( attachmentsMapper.mapDtoToEntity( destination.getAttachments() ) );
-        userStory.setUserStoryStatus( destination.getUserStoryStatus() );
+        userStory.name( destination.getName() );
+        userStory.description( destination.getDescription() );
+        userStory.attachments( attachmentsDtoListToAttachmentList( destination.getAttachments() ) );
+        userStory.storyPoints( destination.getStoryPoints() );
+        userStory.userStoryStatus( destination.getUserStoryStatus() );
+        userStory.sprints( sprintDtoListToSprintList( destination.getSprints() ) );
 
-        return userStory;
+        return userStory.build();
     }
 
     @Override
-    public Set<UserStory> mapDtoSetToEntitySet(Set<UserStoryDto> destination) {
+    public Set<UserStory> UserStoryDtoSetToUserStorySet(Set<UserStoryDto> destination) {
         if ( destination == null ) {
             return null;
         }
 
         Set<UserStory> set = new LinkedHashSet<UserStory>( Math.max( (int) ( destination.size() / .75f ) + 1, 16 ) );
         for ( UserStoryDto userStoryDto : destination ) {
-            set.add( mapDtoToEntity( userStoryDto ) );
+            set.add( UserStoryDtoToUserStory( userStoryDto ) );
         }
 
         return set;
     }
 
     @Override
-    public UserStoryDto mapEntityToDtoIgnoreAttachmentsAndDescription(UserStory source) {
+    public UserStoryDto UserStoryToUserStoryDtoIgnoreAttachmentsAndDescription(UserStory source) {
         if ( source == null ) {
             return null;
         }
 
         UserStoryDto userStoryDto = new UserStoryDto();
 
-        userStoryDto.setId( source.getId() );
         userStoryDto.setName( source.getName() );
         userStoryDto.setStoryPoints( source.getStoryPoints() );
         userStoryDto.setUserStoryStatus( source.getUserStoryStatus() );
@@ -151,21 +145,21 @@ public class UserStoryMapperImpl implements UserStoryMapper {
     }
 
     @Override
-    public Set<UserStoryDto> mapEntityToDtoIgnoreAttachmentsAndDescription(Set<UserStory> source) {
+    public List<UserStoryDto> UserStoryListToUserStoryDtoListIgnoreAttachmentsAndDescription(List<UserStory> source) {
         if ( source == null ) {
             return null;
         }
 
-        Set<UserStoryDto> set = new LinkedHashSet<UserStoryDto>( Math.max( (int) ( source.size() / .75f ) + 1, 16 ) );
+        List<UserStoryDto> list = new ArrayList<UserStoryDto>( source.size() );
         for ( UserStory userStory : source ) {
-            set.add( mapEntityToDtoIgnoreAttachmentsAndDescription( userStory ) );
+            list.add( UserStoryToUserStoryDtoIgnoreAttachmentsAndDescription( userStory ) );
         }
 
-        return set;
+        return list;
     }
 
     @Override
-    public UserStoryDto mapEntityToDtoIgnoreAllExceptNamePoints(UserStory source) {
+    public UserStoryDto UserStoryToUserStoryDtoIgnoreAllExceptNamePoints(UserStory source) {
         if ( source == null ) {
             return null;
         }
@@ -179,30 +173,72 @@ public class UserStoryMapperImpl implements UserStoryMapper {
     }
 
     @Override
-    public Set<UserStoryDto> mapEntityToDtoIgnoreAllExceptNamePoints(Set<UserStory> source) {
+    public List<UserStoryDto> UserStoryListToUserStoryDtoListIgnoreAllExceptNamePoints(List<UserStory> source) {
         if ( source == null ) {
             return null;
         }
 
-        Set<UserStoryDto> set = new LinkedHashSet<UserStoryDto>( Math.max( (int) ( source.size() / .75f ) + 1, 16 ) );
+        List<UserStoryDto> list = new ArrayList<UserStoryDto>( source.size() );
         for ( UserStory userStory : source ) {
-            set.add( mapEntityToDtoIgnoreAllExceptNamePoints( userStory ) );
+            list.add( UserStoryToUserStoryDtoIgnoreAllExceptNamePoints( userStory ) );
         }
 
-        return set;
+        return list;
     }
 
-    protected Set<SprintDto> sprintSetToSprintDtoSet(Set<Sprint> set) {
-        if ( set == null ) {
+    protected Byte[] byteArrayToByteArray(byte[] byteArray) {
+        if ( byteArray == null ) {
             return null;
         }
 
-        Set<SprintDto> set1 = new LinkedHashSet<SprintDto>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
-        for ( Sprint sprint : set ) {
-            set1.add( sprintToSprintDto( sprint ) );
+        Byte[] byteTmp = new Byte[byteArray.length];
+        int i = 0;
+        for ( byte byte1 : byteArray ) {
+            byteTmp[i] = byte1;
+            i++;
         }
 
-        return set1;
+        return byteTmp;
+    }
+
+    protected AttachmentsDto attachmentToAttachmentsDto(Attachment attachment) {
+        if ( attachment == null ) {
+            return null;
+        }
+
+        AttachmentsDto attachmentsDto = new AttachmentsDto();
+
+        attachmentsDto.setAttachment( byteArrayToByteArray( attachment.getAttachment() ) );
+        attachmentsDto.setName( attachment.getName() );
+        attachmentsDto.setUserStory( attachment.getUserStory() );
+
+        return attachmentsDto;
+    }
+
+    protected List<AttachmentsDto> attachmentListToAttachmentsDtoList(List<Attachment> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<AttachmentsDto> list1 = new ArrayList<AttachmentsDto>( list.size() );
+        for ( Attachment attachment : list ) {
+            list1.add( attachmentToAttachmentsDto( attachment ) );
+        }
+
+        return list1;
+    }
+
+    protected List<SprintDto> sprintListToSprintDtoList(List<Sprint> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<SprintDto> list1 = new ArrayList<SprintDto>( list.size() );
+        for ( Sprint sprint : list ) {
+            list1.add( sprintToSprintDto( sprint ) );
+        }
+
+        return list1;
     }
 
     protected UserStoryDto userStoryToUserStoryDto(UserStory userStory) {
@@ -212,28 +248,27 @@ public class UserStoryMapperImpl implements UserStoryMapper {
 
         UserStoryDto userStoryDto = new UserStoryDto();
 
-        userStoryDto.setId( userStory.getId() );
         userStoryDto.setName( userStory.getName() );
         userStoryDto.setDescription( userStory.getDescription() );
         userStoryDto.setStoryPoints( userStory.getStoryPoints() );
         userStoryDto.setUserStoryStatus( userStory.getUserStoryStatus() );
-        userStoryDto.setSprints( sprintSetToSprintDtoSet( userStory.getSprints() ) );
-        userStoryDto.setAttachments( attachmentsMapper.mapEntityToDto( userStory.getAttachments() ) );
+        userStoryDto.setAttachments( attachmentListToAttachmentsDtoList( userStory.getAttachments() ) );
+        userStoryDto.setSprints( sprintListToSprintDtoList( userStory.getSprints() ) );
 
         return userStoryDto;
     }
 
-    protected Set<UserStoryDto> userStorySetToUserStoryDtoSet(Set<UserStory> set) {
-        if ( set == null ) {
+    protected List<UserStoryDto> userStoryListToUserStoryDtoList(List<UserStory> list) {
+        if ( list == null ) {
             return null;
         }
 
-        Set<UserStoryDto> set1 = new LinkedHashSet<UserStoryDto>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
-        for ( UserStory userStory : set ) {
-            set1.add( userStoryToUserStoryDto( userStory ) );
+        List<UserStoryDto> list1 = new ArrayList<UserStoryDto>( list.size() );
+        for ( UserStory userStory : list ) {
+            list1.add( userStoryToUserStoryDto( userStory ) );
         }
 
-        return set1;
+        return list1;
     }
 
     protected SprintDto sprintToSprintDto(Sprint sprint) {
@@ -243,27 +278,69 @@ public class UserStoryMapperImpl implements UserStoryMapper {
 
         SprintDto sprintDto = new SprintDto();
 
-        sprintDto.setId( sprint.getId() );
         sprintDto.setName( sprint.getName() );
         sprintDto.setBeginDate( sprint.getBeginDate() );
         sprintDto.setEndDate( sprint.getEndDate() );
         sprintDto.setGoalDescription( sprint.getGoalDescription() );
-        sprintDto.setUserStories( userStorySetToUserStoryDtoSet( sprint.getUserStories() ) );
+        sprintDto.setSprintStatus( sprint.getSprintStatus() );
+        sprintDto.setUserStories( userStoryListToUserStoryDtoList( sprint.getUserStories() ) );
 
         return sprintDto;
     }
 
-    protected Set<Sprint> sprintDtoSetToSprintSet(Set<SprintDto> set) {
-        if ( set == null ) {
+    protected byte[] byteArrayTobyteArray(Byte[] byteArray) {
+        if ( byteArray == null ) {
             return null;
         }
 
-        Set<Sprint> set1 = new LinkedHashSet<Sprint>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
-        for ( SprintDto sprintDto : set ) {
-            set1.add( sprintDtoToSprint( sprintDto ) );
+        byte[] byteTmp = new byte[byteArray.length];
+        int i = 0;
+        for ( Byte byte1 : byteArray ) {
+            byteTmp[i] = byte1;
+            i++;
         }
 
-        return set1;
+        return byteTmp;
+    }
+
+    protected Attachment attachmentsDtoToAttachment(AttachmentsDto attachmentsDto) {
+        if ( attachmentsDto == null ) {
+            return null;
+        }
+
+        Attachment.AttachmentBuilder attachment = Attachment.builder();
+
+        attachment.attachment( byteArrayTobyteArray( attachmentsDto.getAttachment() ) );
+        attachment.name( attachmentsDto.getName() );
+        attachment.userStory( attachmentsDto.getUserStory() );
+
+        return attachment.build();
+    }
+
+    protected List<Attachment> attachmentsDtoListToAttachmentList(List<AttachmentsDto> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<Attachment> list1 = new ArrayList<Attachment>( list.size() );
+        for ( AttachmentsDto attachmentsDto : list ) {
+            list1.add( attachmentsDtoToAttachment( attachmentsDto ) );
+        }
+
+        return list1;
+    }
+
+    protected List<Sprint> sprintDtoListToSprintList(List<SprintDto> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<Sprint> list1 = new ArrayList<Sprint>( list.size() );
+        for ( SprintDto sprintDto : list ) {
+            list1.add( sprintDtoToSprint( sprintDto ) );
+        }
+
+        return list1;
     }
 
     protected UserStory userStoryDtoToUserStory(UserStoryDto userStoryDto) {
@@ -271,30 +348,29 @@ public class UserStoryMapperImpl implements UserStoryMapper {
             return null;
         }
 
-        UserStory userStory = new UserStory();
+        UserStory.UserStoryBuilder userStory = UserStory.builder();
 
-        userStory.setId( userStoryDto.getId() );
-        userStory.setName( userStoryDto.getName() );
-        userStory.setDescription( userStoryDto.getDescription() );
-        userStory.setStoryPoints( userStoryDto.getStoryPoints() );
-        userStory.setSprints( sprintDtoSetToSprintSet( userStoryDto.getSprints() ) );
-        userStory.setAttachments( attachmentsMapper.mapDtoToEntity( userStoryDto.getAttachments() ) );
-        userStory.setUserStoryStatus( userStoryDto.getUserStoryStatus() );
+        userStory.name( userStoryDto.getName() );
+        userStory.description( userStoryDto.getDescription() );
+        userStory.attachments( attachmentsDtoListToAttachmentList( userStoryDto.getAttachments() ) );
+        userStory.storyPoints( userStoryDto.getStoryPoints() );
+        userStory.userStoryStatus( userStoryDto.getUserStoryStatus() );
+        userStory.sprints( sprintDtoListToSprintList( userStoryDto.getSprints() ) );
 
-        return userStory;
+        return userStory.build();
     }
 
-    protected Set<UserStory> userStoryDtoSetToUserStorySet(Set<UserStoryDto> set) {
-        if ( set == null ) {
+    protected List<UserStory> userStoryDtoListToUserStoryList(List<UserStoryDto> list) {
+        if ( list == null ) {
             return null;
         }
 
-        Set<UserStory> set1 = new LinkedHashSet<UserStory>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
-        for ( UserStoryDto userStoryDto : set ) {
-            set1.add( userStoryDtoToUserStory( userStoryDto ) );
+        List<UserStory> list1 = new ArrayList<UserStory>( list.size() );
+        for ( UserStoryDto userStoryDto : list ) {
+            list1.add( userStoryDtoToUserStory( userStoryDto ) );
         }
 
-        return set1;
+        return list1;
     }
 
     protected Sprint sprintDtoToSprint(SprintDto sprintDto) {
@@ -302,15 +378,15 @@ public class UserStoryMapperImpl implements UserStoryMapper {
             return null;
         }
 
-        Sprint sprint = new Sprint();
+        Sprint.SprintBuilder sprint = Sprint.builder();
 
-        sprint.setId( sprintDto.getId() );
-        sprint.setName( sprintDto.getName() );
-        sprint.setBeginDate( sprintDto.getBeginDate() );
-        sprint.setEndDate( sprintDto.getEndDate() );
-        sprint.setGoalDescription( sprintDto.getGoalDescription() );
-        sprint.setUserStories( userStoryDtoSetToUserStorySet( sprintDto.getUserStories() ) );
+        sprint.name( sprintDto.getName() );
+        sprint.beginDate( sprintDto.getBeginDate() );
+        sprint.endDate( sprintDto.getEndDate() );
+        sprint.goalDescription( sprintDto.getGoalDescription() );
+        sprint.sprintStatus( sprintDto.getSprintStatus() );
+        sprint.userStories( userStoryDtoListToUserStoryList( sprintDto.getUserStories() ) );
 
-        return sprint;
+        return sprint.build();
     }
 }

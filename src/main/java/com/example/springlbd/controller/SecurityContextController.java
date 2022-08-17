@@ -2,6 +2,7 @@ package com.example.springlbd.controller;
 
 import com.example.springlbd.dto.UserAndRolesDto;
 import com.example.springlbd.services.SecurityContextService;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -14,13 +15,10 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/security")
+@AllArgsConstructor
 public class SecurityContextController {
 
-    private SecurityContextService securityContextService;
-
-    public SecurityContextController(SecurityContextService securityContextService) {
-        this.securityContextService = securityContextService;
-    }
+    private final SecurityContextService securityContextService;
 
     @GetMapping("/info")
     public UserAndRolesDto getCurrentlyLogged(){

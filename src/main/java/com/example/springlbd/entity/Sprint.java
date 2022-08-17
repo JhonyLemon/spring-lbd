@@ -1,13 +1,22 @@
 package com.example.springlbd.entity;
 
 import com.example.springlbd.entity.enums.SprintStatus;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 @Table(name = "SPRINT")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString
 public class Sprint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,84 +54,7 @@ public class Sprint {
                     )
             }
     )
-    private Set<UserStory> userStories;
+    private List<UserStory> userStories =new ArrayList<>();
 
-    public Sprint(Long id, String name, LocalDate beginDate, LocalDate endDate, String goalDescription, SprintStatus sprintStatus, Set<UserStory> userStories) {
-        this.id = id;
-        this.name = name;
-        this.beginDate = beginDate;
-        this.endDate = endDate;
-        this.goalDescription = goalDescription;
-        this.sprintStatus = sprintStatus;
-        this.userStories = userStories;
-    }
-
-    public Sprint(String name, LocalDate beginDate, LocalDate endDate, String goalDescription, SprintStatus sprintStatus, Set<UserStory> userStories) {
-        this.name = name;
-        this.beginDate = beginDate;
-        this.endDate = endDate;
-        this.goalDescription = goalDescription;
-        this.sprintStatus = sprintStatus;
-        this.userStories = userStories;
-    }
-
-    public Sprint() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public LocalDate getBeginDate() {
-        return beginDate;
-    }
-
-    public void setBeginDate(LocalDate startDate) {
-        this.beginDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getGoalDescription() {
-        return goalDescription;
-    }
-
-    public void setGoalDescription(String goalDescription) {
-        this.goalDescription = goalDescription;
-    }
-
-    public SprintStatus getStatus() {
-        return sprintStatus;
-    }
-
-    public void setStatus(SprintStatus sprintStatus) {
-        this.sprintStatus = sprintStatus;
-    }
-
-    public Set<UserStory> getUserStories() {
-        return userStories;
-    }
-
-    public void setUserStories(Set<UserStory> userStories) {
-        this.userStories = userStories;
-    }
 }
 

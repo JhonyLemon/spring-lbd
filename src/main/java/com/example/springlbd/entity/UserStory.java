@@ -1,12 +1,19 @@
 package com.example.springlbd.entity;
 
 import com.example.springlbd.entity.enums.UserStoryStatus;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "USER_STORY")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UserStory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +27,7 @@ public class UserStory {
     private String description;
 
     @OneToMany(mappedBy = "userStory",cascade = CascadeType.ALL)
-    private Set<Attachment> attachments;
+    private List<Attachment> attachments = new ArrayList<>();
 
     @Column(name = "STORY_POINTS")
     private Long storyPoints;
@@ -30,84 +37,6 @@ public class UserStory {
     private UserStoryStatus userStoryStatus;
 
     @ManyToMany(mappedBy = "userStories",cascade = {CascadeType.DETACH,CascadeType.PERSIST})
-    private Set<Sprint> sprints;
+    private List<Sprint> sprints = new ArrayList<>();
 
-
-    public UserStory(Long id, String name, String description, Set<Attachment> attachments, Long storyPoints, UserStoryStatus userStoryStatus, Set<Sprint> sprints) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.attachments = attachments;
-        this.storyPoints = storyPoints;
-        this.userStoryStatus = userStoryStatus;
-        this.sprints = sprints;
-    }
-
-    public UserStory(String name, String description, Set<Attachment> attachments, Long storyPoints, UserStoryStatus userStoryStatus, Set<Sprint> sprints) {
-        this.name = name;
-        this.description = description;
-        this.attachments = attachments;
-        this.storyPoints = storyPoints;
-        this.userStoryStatus = userStoryStatus;
-        this.sprints = sprints;
-    }
-
-    public UserStory() {
-
-    }
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Long getStoryPoints() {
-        return storyPoints;
-    }
-
-    public void setStoryPoints(Long storyPoints) {
-        this.storyPoints = storyPoints;
-    }
-
-    public Set<Sprint> getSprints() {
-        return sprints;
-    }
-
-    public void setSprints(Set<Sprint> sprints) {
-        this.sprints = sprints;
-    }
-
-    public Set<Attachment> getAttachments() {
-        return attachments;
-    }
-
-    public void setAttachments(Set<Attachment> attachments) {
-        this.attachments = attachments;
-    }
-
-    public UserStoryStatus getUserStoryStatus() {
-        return userStoryStatus;
-    }
-
-    public void setUserStoryStatus(UserStoryStatus userStoryStatus) {
-        this.userStoryStatus = userStoryStatus;
-    }
 }

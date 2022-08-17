@@ -3,6 +3,7 @@ package com.example.springlbd.errorhandling;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class Error {
 
     private String message;

@@ -1,4 +1,10 @@
 -------------------------------------------------------------------------------
 Test set: com.example.springlbd.SpringLbdApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.444 s - in com.example.springlbd.SpringLbdApplicationTests
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 10.469 s <<< FAILURE! - in com.example.springlbd.SpringLbdApplicationTests
+contextLoads  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'nbpApiController' defined in file [C:\Users\Adam\IdeaProjects\spring-lbd\target\classes\com\example\springlbd\controller\NbpApiController.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'nbpApiService' defined in file [C:\Users\Adam\IdeaProjects\spring-lbd\target\classes\com\example\springlbd\services\NbpApiService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.web.client.RestTemplate' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'nbpApiService' defined in file [C:\Users\Adam\IdeaProjects\spring-lbd\target\classes\com\example\springlbd\services\NbpApiService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.web.client.RestTemplate' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.web.client.RestTemplate' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+

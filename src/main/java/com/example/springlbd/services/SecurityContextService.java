@@ -10,12 +10,13 @@ import org.springframework.stereotype.Service;
 import java.util.stream.Collectors;
 
 @Service
+
 public class SecurityContextService {
 
     public UserAndRolesDto getCurrentlyLogged(){
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
-        return new UserAndRolesDto(authentication.getName(),authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet()));
+        return new UserAndRolesDto(authentication.getName(),authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
     }
 
 }

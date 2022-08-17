@@ -22,18 +22,17 @@ public class TestUserStoriesLoader implements ApplicationContextAware {
     UserStoryRepository repository;
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException{
+    public void setApplicationContext(ApplicationContext applicationContext){
         Random random = new Random();
         for (Integer i=0; i<100; i++){
 
-            repository.save(new UserStory(
-                    UUID.randomUUID().toString(),
-                    UUID.randomUUID().toString(),
-                    null,
-                    (long)random.nextInt(100),
-                    UserStoryStatus.values()[random.nextInt(3)],
-                    null
-            ));
+
+            repository.save(UserStory.builder()
+                    .name(UUID.randomUUID().toString())
+                    .description(UUID.randomUUID().toString())
+                    .userStoryStatus(UserStoryStatus.values()[random.nextInt(3)])
+                    .storyPoints((long)random.nextInt(100))
+                    .build());
         }
 
     }

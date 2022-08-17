@@ -1,30 +1,17 @@
 package com.example.springlbd.dto;
 
-import java.util.Set;
+import lombok.*;
 
+import java.util.List;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class UserAndRolesDto {
 
     private String name;
-    private Set<String> roles;
+    private List<String> roles;
 
-    public UserAndRolesDto(String name, Set<String> roles) {
-        this.name = name;
-        this.roles = roles;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<String> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<String> roles) {
-        this.roles = roles;
-    }
 }

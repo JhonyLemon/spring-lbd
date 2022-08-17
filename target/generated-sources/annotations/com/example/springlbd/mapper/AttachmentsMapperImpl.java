@@ -4,12 +4,12 @@ import com.example.springlbd.dto.AttachmentsDto;
 import com.example.springlbd.entity.Attachment;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-07-10T14:22:39+0200",
+    date = "2022-08-17T16:27:49+0200",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.11 (Oracle Corporation)"
 )
 @Component
@@ -23,10 +23,9 @@ public class AttachmentsMapperImpl implements AttachmentsMapper {
 
         AttachmentsDto attachmentsDto = new AttachmentsDto();
 
-        attachmentsDto.setId( source.getId() );
         attachmentsDto.setAttachment( byteArrayToByteArray( source.getAttachment() ) );
-        attachmentsDto.setUserStory( source.getUserStory() );
         attachmentsDto.setName( source.getName() );
+        attachmentsDto.setUserStory( source.getUserStory() );
 
         return attachmentsDto;
     }
@@ -37,14 +36,13 @@ public class AttachmentsMapperImpl implements AttachmentsMapper {
             return null;
         }
 
-        Attachment attachment = new Attachment();
+        Attachment.AttachmentBuilder attachment = Attachment.builder();
 
-        attachment.setId( destination.getId() );
-        attachment.setAttachment( byteArrayTobyteArray( destination.getAttachment() ) );
-        attachment.setUserStory( destination.getUserStory() );
-        attachment.setName( destination.getName() );
+        attachment.attachment( byteArrayTobyteArray( destination.getAttachment() ) );
+        attachment.name( destination.getName() );
+        attachment.userStory( destination.getUserStory() );
 
-        return attachment;
+        return attachment.build();
     }
 
     @Override

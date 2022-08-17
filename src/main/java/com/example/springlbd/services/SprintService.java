@@ -1,110 +1,95 @@
 package com.example.springlbd.services;
 
 import com.example.springlbd.dto.SprintDto;
+import com.example.springlbd.dto.UserStoryDto;
 import com.example.springlbd.entity.Sprint;
 import com.example.springlbd.entity.UserStory;
 import com.example.springlbd.entity.enums.SprintStatus;
 import com.example.springlbd.events.UserStoryCreatedEvent;
 import com.example.springlbd.mapper.SprintMapper;
+import com.example.springlbd.mapper.UserStoryMapper;
 import com.example.springlbd.repositories.SprintRepository;
 import com.example.springlbd.repositories.UserStoryRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.context.event.EventListener;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
+@AllArgsConstructor
 public class SprintService {
-        private SprintRepository sprintRepository;
+    private final SprintRepository sprintRepository;
+    private final UserStoryRepository userStoryRepository;
+    private final SprintMapper sprintMapper;
+    private final UserStoryMapper userStoryMapper;
 
-    private UserStoryRepository userStoryRepository;
+    public List<SprintDto> findAllWithOrWithoutUserStories(Boolean tasks){
+        if(tasks){
+            return sprintMapper.SprintIterableToSprintDtoListUserStoryOnlyNamePointsToSprintDto(sprintRepository.findAllFetchUserStories());
+        }else{
+            return sprintMapper.SprintIterableToSprintDtoListWithoutConstraints(sprintRepository.findAll());
+        }
 
-    private SprintMapper sprintMapper;
-
-    public SprintService(SprintRepository sprintRepository,UserStoryRepository userStoryRepository,SprintMapper sprintMapper) {
-        this.sprintRepository = sprintRepository;
-        this.userStoryRepository=userStoryRepository;
-        this.sprintMapper=sprintMapper;
     }
 
     @Transactional
-    public Sprint saveSprint(Sprint sprint){
-        if(sprint.getBeginDate()==null)
-            throw new IllegalArgumentException("Pole daty początkowej nie może być puste");
-        if(sprint.getEndDate()==null)
-            throw new IllegalArgumentException("Pole daty końcowej nie może być puste");
-        if(sprint.getName()==null)
-            throw new IllegalArgumentException("Pole nazwy nie może być puste");
-        if(sprint.getStatus()==null)
-            throw new IllegalArgumentException("Pole statusu nie może być puste");
-        if(sprint.getBeginDate().isAfter(sprint.getEndDate()))
-            throw new IllegalArgumentException("Data początku musi być przed data końca");
-
-        return sprintRepository.save(sprint);
-    }
-
-
-
-    public Set<SprintDto> getSprintsBetweenDates(LocalDate start, LocalDate stop){
-        if(start.isAfter(stop))
-            throw new IllegalArgumentException("Data początku musi być przed data końca");
-        Optional<Set<Sprint>> optional= sprintRepository
-                .findByBeginDateGreaterThanEqualAndEndDateLessThanEqual(start,stop);
-        if(!optional.isPresent())
-            throw new EmptyResultDataAccessException("Nie znaleziono sprintów pomiędzy datami("+start+"-"+stop+")",0);
-        return sprintMapper.mapEntityToDtoIgnoreAllExceptNameDatesStatus(optional.get());
+    public void addUserStoryToSprint(Long id, UserStoryDto userStoryDto){
+        sprintRepository
+                .findById(id)
+                .orElseThrow(()->new EntityNotFoundException("Sprint o podanym id nie istnieje"))
+                .getUserStories()
+                .add(userStoryMapper.UserStoryDtoToUserStory(userStoryDto));
     }
 
     public Long countStoryPointsBySprintId(Long id){
         if(id<1)
             throw new IllegalArgumentException("id nie może być mniejsze od 1");
-        Optional<Long> optional= sprintRepository.countStoryPointsBySprintId(id);
-        if(!optional.isPresent())
-            throw new EmptyResultDataAccessException("Sprint o podanym id nie istnieje lub nie ma przypisanych user stories",0);
-        return optional.get();
+        return sprintRepository
+                .countStoryPointsBySprintId(id)
+                .orElseThrow(()->new EntityNotFoundException("Sprint o podanym id nie istnieje lub nie ma przypisanych user stories"));
     }
 
-    @Transactional
-    public Sprint saveSprintAndUserStories(Sprint sprint,Set<UserStory> userStories){
-        Sprint s=saveSprint(sprint);
-        userStories.forEach(x -> userStoryRepository.save(x));
-        return s;
-    }
-
-    public Set<SprintDto> findAllWithOrWithoutUserStories(Boolean tasks){
-        if(tasks){
-            return sprintMapper.mapEntityIterableUserStoryOnlyNamePointsToDtoSet(sprintRepository.findAllFetchUserStories());
-        }else{
-            return sprintMapper.mapEntityToDtoWithoutConstraints(sprintRepository.findAll());
-        }
-
+    public List<UserStoryDto> getUserStoriesBySprintId(Long id){
+        if(id<1)
+            throw new IllegalArgumentException("id nie może być mniejsze od 1");
+        return userStoryMapper
+                .UserStoryListToUserStoryDtoListIgnoreAttachmentsAndDescription(sprintRepository
+                .findUserStoriesById(id)
+                .orElseThrow(()->new EntityNotFoundException("Sprint o podanym id nie istnieje lub nie ma przypisanych user stories")));
     }
 
     @Transactional
     public void updateSprintStatus(Long id, SprintStatus status){
         if(id<1)
             throw new IllegalArgumentException("id nie może być mniejsze od 1");
-        Optional<Sprint> optional= sprintRepository.findById(id);
-        if(!optional.isPresent())
-            throw new EmptyResultDataAccessException("Sprint o podanym id nie istnieje",0);
-        optional.get().setStatus(status);
+        sprintRepository
+                .findById(id)
+                .orElseThrow(()->new EntityNotFoundException("Sprint o podanym id nie istnieje"))
+                .setSprintStatus(status);
+    }
+
+    public List<SprintDto> getSprintsBetweenDates(LocalDate start, LocalDate stop){
+        if(start.isAfter(stop))
+            throw new IllegalArgumentException("Data początku musi być przed data końca");
+        return sprintMapper
+                .SprintListToSprintDtoListIgnoreAllExceptNameDatesStatus(sprintRepository
+                .findByBeginDateGreaterThanEqualAndEndDateLessThanEqual(start,stop)
+                .orElseThrow(()-> new EntityNotFoundException("Nie znaleziono sprintów pomiędzy datami("+start+"-"+stop+")")));
     }
 
     @EventListener
+    @Transactional
     public void handleUserStoryCreatedEvent(UserStoryCreatedEvent userStoryCreatedEvent){
         Optional<Sprint> optionalSprint=sprintRepository.findRecentWithPendingStatus();
         if(!optionalSprint.isPresent())
-            throw new EmptyResultDataAccessException("Sprint nie istnieje",0);
-        Optional<UserStory> optionalUserStory=userStoryRepository.findById(userStoryCreatedEvent.getId());
-        if(!optionalSprint.isPresent())
-            throw new EmptyResultDataAccessException("User story o podanym id nie istnieje",0);
-        optionalSprint.get().getUserStories().add(optionalUserStory.get());
+            throw new EntityNotFoundException("Sprint nie istnieje");
+        optionalSprint.get().getUserStories().add(userStoryCreatedEvent.getUserStory());
     }
-
 
 }

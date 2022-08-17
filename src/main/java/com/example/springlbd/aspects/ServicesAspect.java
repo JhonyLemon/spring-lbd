@@ -15,7 +15,7 @@ public class ServicesAspect {
     private static final Logger LOG = LoggerFactory.getLogger(ServicesAspect.class);
 
     @Around("execution(* com.example.springlbd.services..*.*(..))")
-    public Object aroundServicesMethods(ProceedingJoinPoint joinPoint){
+    public Object aroundServicesMethods(ProceedingJoinPoint joinPoint) throws Throwable {
         Object val = joinPoint.getArgs();
 
 
@@ -24,14 +24,12 @@ public class ServicesAspect {
         for (Object arg : joinPoint.getArgs()) {
             LOG.info(arg.getClass().getName()+": "+arg);
         }
-        try{
             val=joinPoint.proceed();
-            LOG.info("Successfully executed method and returned:");
-            LOG.info(val.getClass().getName()+":");
-            LOG.info(val.toString());
-        }catch (Throwable e){
-            LOG.info("Error while executing method "+joinPoint.getSignature().getDeclaringTypeName()+joinPoint.getSignature().getName());
-        }
+            if(val!=null) {
+                LOG.info("Successfully executed method and returned:");
+                LOG.info(val.getClass().getName() + ":");
+                LOG.info(val.toString());
+            }
         return val;
     }
 

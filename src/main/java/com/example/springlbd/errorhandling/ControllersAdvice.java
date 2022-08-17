@@ -1,21 +1,18 @@
 package com.example.springlbd.errorhandling;
 
-
-import org.springframework.dao.EmptyResultDataAccessException;
-
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class ControllersAdvice {
 
     @ExceptionHandler(IllegalArgumentException.class)
@@ -26,13 +23,14 @@ public class ControllersAdvice {
                 HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(EmptyResultDataAccessException.class)
+    @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Error> handleEmptyResultDataAccess(
-            EmptyResultDataAccessException ex){
+            EntityNotFoundException ex){
         return new ResponseEntity<>(
                 new Error(ex.getCause().getMessage()),
                 HttpStatus.NOT_FOUND);
     }
+
     @ExceptionHandler(MethodArgumentTypeMismatchException.class )
     public ResponseEntity<Error> handleMethodArgumentTypeMismatch(
             MethodArgumentTypeMismatchException ex) {

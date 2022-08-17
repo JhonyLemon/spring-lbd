@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class NbpApiService {
 
     private static final String RESOURCE_URL = "http://api.nbp.pl/api";
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     public NbpApiService(RestTemplateBuilder builder) {
         this.restTemplate = builder.build();
