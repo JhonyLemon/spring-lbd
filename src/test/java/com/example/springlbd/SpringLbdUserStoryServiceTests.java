@@ -1,12 +1,12 @@
 package com.example.springlbd;
 
-import com.example.springlbd.entity.userstory.Status;
-import com.example.springlbd.entity.userstory.UserStory;
-import com.example.springlbd.services.userstory.UserStoryService;
+import com.example.springlbd.entity.enums.UserStoryStatus;
+import com.example.springlbd.entity.UserStory;
+import com.example.springlbd.services.UserStoryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
+@DependsOnDatabaseInitialization
 public class SpringLbdUserStoryServiceTests {
 
     @Autowired
@@ -24,25 +25,24 @@ public class SpringLbdUserStoryServiceTests {
 
     @Test
     void whenSavingNewUserStory_thenSuccess(){
-        UserStory story = new UserStory(
-                "name",
-                "gfjsdsf",
-                30L,
-                Status.In_progress,
-                null
-        );
+
+        UserStory story = UserStory.builder()
+                .name("name")
+                .description("gfjsdsf")
+                .storyPoints(30L)
+                .userStoryStatus(UserStoryStatus.In_progress)
+                .build();
         assertNotNull(userStoryService.saveUserStory(story));
     }
 
     @Test
     void whenSavingNewUserStory_thenFailure(){
-        UserStory story = new UserStory(
-                "name",
-                null,
-                30L,
-                Status.In_progress,
-                null
-        );
+        UserStory story = UserStory.builder()
+                .name("name")
+                .description(null)
+                .storyPoints(30L)
+                .userStoryStatus(UserStoryStatus.In_progress)
+                .build();
         assertThrows(IllegalArgumentException.class,() -> userStoryService.saveUserStory(story));
     }
 

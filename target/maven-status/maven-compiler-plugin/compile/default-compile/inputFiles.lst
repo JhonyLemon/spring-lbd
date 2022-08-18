@@ -1,1 +1,10 @@
+C:\Users\Adam\IdeaProjects\spring-lbd\src\main\java\com\example\springlbd\entity\UserStory.java
 C:\Users\Adam\IdeaProjects\spring-lbd\src\main\java\com\example\springlbd\SpringLbdApplication.java
+C:\Users\Adam\IdeaProjects\spring-lbd\src\main\java\com\example\springlbd\services\userstory\UserStoryService.java
+C:\Users\Adam\IdeaProjects\spring-lbd\src\main\java\com\example\springlbd\repositories\SprintRepository.java
+C:\Users\Adam\IdeaProjects\spring-lbd\src\main\java\com\example\springlbd\entity\enums\SprintStatus.java
+C:\Users\Adam\IdeaProjects\spring-lbd\src\main\java\com\example\springlbd\entity\enums\UserStoryStatus.java
+C:\Users\Adam\IdeaProjects\spring-lbd\src\main\java\com\example\springlbd\services\sprint\SprintService.java
+C:\Users\Adam\IdeaProjects\spring-lbd\src\main\java\com\example\springlbd\TestUserStoriesLoader.java
+C:\Users\Adam\IdeaProjects\spring-lbd\src\main\java\com\example\springlbd\entity\Sprint.java
+C:\Users\Adam\IdeaProjects\spring-lbd\src\main\java\com\example\springlbd\repositories\UserStoryRepository.java

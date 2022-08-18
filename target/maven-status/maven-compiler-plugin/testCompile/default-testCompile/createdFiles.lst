@@ -1,1 +1,5 @@
+com\example\springlbd\SpringLbdSprintRepositoryTest.class
+com\example\springlbd\SpringLbdSprintServiceTests.class
 com\example\springlbd\SpringLbdApplicationTests.class
+com\example\springlbd\SpringLbdUserStoryRepositoryTests.class
+com\example\springlbd\SpringLbdUserStoryServiceTests.class

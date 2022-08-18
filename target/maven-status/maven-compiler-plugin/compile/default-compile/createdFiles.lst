@@ -1,1 +1,12 @@
+com\example\springlbd\entity\enums\SprintStatus.class
+com\example\springlbd\entity\enums\UserStoryStatus.class
+com\example\springlbd\entity\Sprint.class
+com\example\springlbd\services\sprint\SprintService.class
+com\example\springlbd\entity\Sprint$SprintBuilder.class
 com\example\springlbd\SpringLbdApplication.class
+com\example\springlbd\services\userstory\UserStoryService.class
+com\example\springlbd\TestUserStoriesLoader.class
+com\example\springlbd\entity\UserStory$UserStoryBuilder.class
+com\example\springlbd\repositories\SprintRepository.class
+com\example\springlbd\entity\UserStory.class
+com\example\springlbd\repositories\UserStoryRepository.class

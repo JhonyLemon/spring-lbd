@@ -1,14 +1,15 @@
 package com.example.springlbd;
 
-import com.example.springlbd.entity.sprint.Sprint;
-import com.example.springlbd.entity.sprint.Status;
-import com.example.springlbd.entity.userstory.UserStory;
-import com.example.springlbd.services.sprint.SprintService;
-import com.example.springlbd.services.userstory.UserStoryService;
+import com.example.springlbd.entity.Sprint;
+import com.example.springlbd.entity.enums.SprintStatus;
+import com.example.springlbd.entity.UserStory;
+import com.example.springlbd.entity.enums.UserStoryStatus;
+import com.example.springlbd.services.SprintService;
+import com.example.springlbd.services.UserStoryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
@@ -18,6 +19,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@DependsOnDatabaseInitialization
 public class SpringLbdSprintServiceTests {
 
     @Autowired
@@ -29,11 +31,12 @@ public class SpringLbdSprintServiceTests {
     @Test
     void whenSavingNewSprint_thenSuccess(){
         Sprint sprint = new Sprint(
+                null,
                 "sprint1",
                 LocalDate.of(2000,1,1),
                 LocalDate.of(2001,1,1),
                 "opis",
-                Status.In_progress,
+                SprintStatus.In_progress,
                 null
         );
         assertNotNull(sprintService.saveSprint(sprint));
@@ -43,10 +46,11 @@ public class SpringLbdSprintServiceTests {
     void whenSavingNewSprint_thenFailure(){
         Sprint sprint = new Sprint(
                 null,
+                null,
                 LocalDate.of(2000,1,1),
                 LocalDate.of(1999,1,1),
                 "opis",
-                Status.In_progress,
+                SprintStatus.In_progress,
                 null
         );
         assertThrows(IllegalArgumentException.class,() -> sprintService.saveSprint(sprint));
@@ -54,51 +58,47 @@ public class SpringLbdSprintServiceTests {
 
     @Test
     void whenGettingUserStoryBySprintId(){
-        final Sprint sprint = new Sprint(
-                2L,
-                "sprint1",
-                LocalDate.of(2000,1,1),
-                LocalDate.of(2001,1,1),
-                "opis",
-                Status.In_progress,
-                new HashSet<>(Arrays.asList(
-                        new UserStory(
-                                "name",
-                                "gfjsdsf",
-                                30L,
-                                com.example.springlbd.entity.userstory.Status.In_progress,
-                                null
-                        ),
-                        new UserStory(
-                                "name",
-                                "gfjsdsf",
-                                30L,
-                                com.example.springlbd.entity.userstory.Status.In_progress,
-                                null
-                        ),
-                        new UserStory(
-                                "name",
-                                "gfjsdsf",
-                                30L,
-                                com.example.springlbd.entity.userstory.Status.In_progress,
-                                null
-                        ),
-                        new UserStory(
-                                "name",
-                                "gfjsdsf",
-                                30L,
-                                com.example.springlbd.entity.userstory.Status.In_progress,
-                                null
-                        ),
-                        new UserStory(
-                                "name",
-                                "gfjsdsf",
-                                30L,
-                                com.example.springlbd.entity.userstory.Status.In_progress,
-                                null
-                        )
+
+        final Sprint sprint =         Sprint.builder()
+                .id(2L)
+                .name("sprint1")
+                .beginDate(LocalDate.of(2000,1,1))
+                .endDate(LocalDate.of(2001,1,1))
+                .goalDescription("opis")
+                .sprintStatus(SprintStatus.In_progress)
+                .userStories(Arrays.asList(
+                        UserStory.builder()
+                                .name("name")
+                                .description("gfjsdsf")
+                                .storyPoints(30L)
+                                .userStoryStatus(UserStoryStatus.In_progress)
+                                .build(),
+                        UserStory.builder()
+                                .name("name")
+                                .description("gfjsdsf")
+                                .storyPoints(30L)
+                                .userStoryStatus(UserStoryStatus.In_progress)
+                                .build(),
+                        UserStory.builder()
+                                .name("name")
+                                .description("gfjsdsf")
+                                .storyPoints(30L)
+                                .userStoryStatus(UserStoryStatus.In_progress)
+                                .build(),
+                        UserStory.builder()
+                                .name("name")
+                                .description("gfjsdsf")
+                                .storyPoints(30L)
+                                .userStoryStatus(UserStoryStatus.In_progress)
+                                .build(),
+                        UserStory.builder()
+                                .name("name")
+                                .description("gfjsdsf")
+                                .storyPoints(30L)
+                                .userStoryStatus(UserStoryStatus.In_progress)
+                                .build()
                 ))
-        );
+                .build();
 
         for (UserStory u :
                 sprint.getUserStories()) {
@@ -125,7 +125,7 @@ public class SpringLbdSprintServiceTests {
                 LocalDate.of(1502,1,1),
                 LocalDate.of(1701,1,1),
                 "opis",
-                Status.In_progress,
+                SprintStatus.In_progress,
                 null
         );
         Sprint sprint2 = new Sprint(
@@ -134,7 +134,7 @@ public class SpringLbdSprintServiceTests {
                 LocalDate.of(1602,1,1),
                 LocalDate.of(1701,1,1),
                 "opis",
-                Status.In_progress,
+                SprintStatus.In_progress,
                 null
         );
         Sprint sprint3 = new Sprint(
@@ -143,7 +143,7 @@ public class SpringLbdSprintServiceTests {
                 LocalDate.of(1602,1,1),
                 LocalDate.of(1801,1,1),
                 "opis",
-                Status.In_progress,
+                SprintStatus.In_progress,
                 null
         );
 
@@ -165,44 +165,54 @@ public class SpringLbdSprintServiceTests {
                 LocalDate.of(2000,1,1),
                 LocalDate.of(2001,1,1),
                 "opis",
-                Status.In_progress,
-                new HashSet<>(Arrays.asList(
+                SprintStatus.In_progress,
+                Arrays.asList(
                         new UserStory(
+                                null,
                                 "name",
                                 "gfjsdsf",
+                                null,
                                 30L,
-                                com.example.springlbd.entity.userstory.Status.Done,
+                                UserStoryStatus.Done,
                                 null
                         ),
                         new UserStory(
+                                null,
                                 "name",
                                 "gfjsdsf",
+                                null,
                                 30L,
-                                com.example.springlbd.entity.userstory.Status.Done,
+                                UserStoryStatus.Done,
                                 null
                         ),
                         new UserStory(
+                                null,
                                 "name",
                                 "gfjsdsf",
+                                null,
                                 30L,
-                                com.example.springlbd.entity.userstory.Status.Done,
+                                UserStoryStatus.Done,
                                 null
                         ),
                         new UserStory(
+                                null,
                                 "name",
                                 "gfjsdsf",
+                                null,
                                 30L,
-                                com.example.springlbd.entity.userstory.Status.In_progress,
+                                UserStoryStatus.In_progress,
                                 null
                         ),
                         new UserStory(
+                                null,
                                 "name",
                                 "gfjsdsf",
+                                null,
                                 30L,
-                                com.example.springlbd.entity.userstory.Status.Review,
+                                UserStoryStatus.Review,
                                 null
                         )
-                ))
+                )
         );
 
         for (UserStory u :
@@ -225,87 +235,59 @@ public class SpringLbdSprintServiceTests {
                 LocalDate.of(2000,1,1),
                 LocalDate.of(2001,1,1),
                 "opis",
-                Status.In_progress,
-                new HashSet<>(Arrays.asList(
+                SprintStatus.In_progress,
+                Arrays.asList(
                         new UserStory(
+                                null,
                                 "name",
                                 "gfjsdsf",
+                                null,
                                 30L,
-                                com.example.springlbd.entity.userstory.Status.Done,
+                                UserStoryStatus.Done,
                                 null
                         ),
                         new UserStory(
+                                null,
                                 "name",
                                 "gfjsdsf",
+                                null,
                                 30L,
-                                com.example.springlbd.entity.userstory.Status.Done,
+                                UserStoryStatus.Done,
                                 null
                         ),
                         new UserStory(
+                                null,
                                 "name",
                                 "gfjsdsf",
+                                null,
                                 30L,
-                                com.example.springlbd.entity.userstory.Status.Done,
+                                UserStoryStatus.Done,
                                 null
                         ),
                         new UserStory(
+                                null,
                                 "name",
                                 "gfjsdsf",
+                                null,
                                 30L,
-                                com.example.springlbd.entity.userstory.Status.In_progress,
+                                UserStoryStatus.In_progress,
                                 null
                         ),
                         new UserStory(
+                                null,
                                 "name",
                                 "gfjsdsf",
+                                null,
                                 30L,
-                                com.example.springlbd.entity.userstory.Status.Review,
+                                UserStoryStatus.Review,
                                 null
                         )
-                ))
+                )
         );
-
         Sprint s=sprintService.saveSprintAndUserStories(sprint,List.copyOf(sprint.getUserStories()));
         assertNotNull(s);
     }
 
-    @Test
-    void givenDataCreated_whenFindAllPaginatedAndSort_thenSuccess(){
-
-        Random random =new Random();
-
-        for(Integer i=0; i<10; i++)
-        {
-            sprintService.saveSprint(new Sprint(
-                    UUID.randomUUID().toString(),
-                    LocalDate.of(random.nextInt(2050-1900)+1900,random.nextInt(12-1)+1,random.nextInt(31-1)+1),
-                    LocalDate.of(random.nextInt(2070-2060)+2060,random.nextInt(12-1)+1,random.nextInt(31-1)+1),
-                    UUID.randomUUID().toString(),
-                    Status.values()[random.nextInt(3)],
-                    null
-            ));
-        }
-        Sprint sprint = new Sprint(
-                "kjjv",
-                LocalDate.of(2100,1,1),
-                LocalDate.of(2200,1,1),
-                "opis",
-                Status.In_progress,
-                null
-        );
-        sprintService.saveSprint(sprint);
-
-        List<Sprint> retrivedSprints = sprintService
-                .findAllPaginated(PageRequest
-                        .of(
-                                0,
-                                3,
-                                Sort.by(Sort.Order.desc("beginDate"))));
-
-        assert (retrivedSprints.size()==3 &&
-                retrivedSprints.get(0).getBeginDate().equals(sprint.getBeginDate())
-        );
-    }
 
 
 }

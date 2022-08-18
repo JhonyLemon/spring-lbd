@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.example.springlbd.SpringLbdApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.025 s - in com.example.springlbd.SpringLbdApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.296 s - in com.example.springlbd.SpringLbdApplicationTests
